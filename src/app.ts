@@ -8,7 +8,5 @@ app.listen(port, () => {
 })
 
 app.post('/books', (req, res) => {
-    const bookTitle = req.body['title']
-    res.set('location', 'newBookLocation')
-    res.status(201).json({id: '1', title: bookTitle})
+
 })
