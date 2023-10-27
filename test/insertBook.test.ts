@@ -17,4 +17,11 @@ describe('POST /books to insert a book', () => {
 
         expect(response.header['location']).toBe('newBookLocation');
     });
+    it('should response with a body with book id when insert a book not in catalogue', async () => {
+        const newBook = {title: "Love story of a Gianni and his beer"};
+
+        const response = await request(app).post("/books").send(newBook);
+
+        expect(response.body).toHaveProperty('id',expect.any(String));
+    });
 });
