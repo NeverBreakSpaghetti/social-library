@@ -7,5 +7,6 @@ app.listen(port, () => {
 })
 
 app.post('/books', (req, res) => {
+    res.set('location', 'newBookLocation')
     res.status(201).json()
 })
