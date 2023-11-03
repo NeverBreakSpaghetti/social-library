@@ -1,6 +1,5 @@
 import request from 'supertest';
-
-const app = "http://localhost:3001";
+import app from '../src/app'
 
 describe('Given a new book not in catalogue', () => {
     const newBook = { title: "GianniBarbaLunga" }
