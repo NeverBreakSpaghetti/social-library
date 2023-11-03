@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from "../src/app";
+import Library from "../src/library";
 // import Library from "../src/library";
 // import * as controller from "../src/controller";
 
@@ -17,5 +18,14 @@ describe('POST /books', () => {
 
         //expect(libraryMock.add).toHaveBeenCalled(); // non riesco a testare sta roba perchè non prende lo stub
         expect(response.statusCode).toBe(201);
+    });
+
+    it('should return a response with status 400 when try to add something else', async () => {
+        const notABook = {test: "this is not a book"};
+
+        const response = await request(app).post("/books").send(notABook);
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('message', 'Book not valid')
     });
 });

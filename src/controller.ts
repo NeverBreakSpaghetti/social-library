@@ -9,7 +9,15 @@ export const getLibrary = () => {
 
 export const insertBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
-        library.add(req.body)
+        try {
+            library.add(req.body)
+        }catch (e){
+            if(e instanceof Error) {
+                const errorMessages = e.message;
+                res.status(400).json({message: errorMessages});
+                return;
+            }
+        }
         res.status(201).json();
     };
 }
