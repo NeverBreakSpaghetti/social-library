@@ -4,13 +4,14 @@ import {BookDto} from "./bookDto";
 
 export const getLibrary = () => {
     // per passare in fretta i test metto momentaneamente sta porcheria
-    return new Library(new class implements Repo {save(book: BookDto) {}});
+    return new Library(new class implements Repo {save(book: BookDto) {return 1}});
 };
 
 export const insertBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
+        let newBookId;
         try {
-            library.add(req.body)
+            newBookId = library.add(req.body)
         }catch (e){
             if(e instanceof Error) {
                 const errorMessages = e.message;
@@ -18,6 +19,10 @@ export const insertBook = (library: Library = getLibrary()) => {
                 return;
             }
         }
-        res.status(201).json();
+        const responseBody = {
+            id: newBookId,
+            title: req.body.title
+        }
+        res.status(201).send(responseBody)
     };
 }

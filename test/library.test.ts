@@ -5,7 +5,7 @@ let repoMock: Repo
 describe('Library', () => {
     beforeAll(() => {
         repoMock = {
-            save: jest.fn()
+            save: jest.fn().mockReturnValue(1)
         }
     })
 
@@ -35,6 +35,15 @@ describe('Library', () => {
             library.add(bookDto);
 
             expect(repoMock.save).toHaveBeenCalledWith({title: "Le avventure di Gianni in montagna"})
+        });
+
+        it('should return the saved book id', () => {
+            const library = new Library(repoMock);
+            const bookDto: BookDto = {title: "Le avventure di Gianni in montagna" }
+
+            const addedBookId = library.add(bookDto);
+
+            expect(addedBookId).toEqual(expect.any(Number))
         });
     });
 });

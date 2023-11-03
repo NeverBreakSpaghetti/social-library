@@ -1,6 +1,5 @@
 import request from 'supertest';
 import app from "../src/app";
-import Library from "../src/library";
 // import Library from "../src/library";
 // import * as controller from "../src/controller";
 
@@ -27,5 +26,14 @@ describe('POST /books', () => {
 
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty('message', 'Book not valid')
+    });
+
+    it('should return a response with the book his id when new book is add to catalogue', async () => {
+        const newBook = {title: "Love story of a Gianni and his beer"};
+
+        const response = await request(app).post("/books").send(newBook);
+
+        expect(response.body).toHaveProperty('id', expect.any(Number));
+        expect(response.body).toHaveProperty('title', newBook.title);
     });
 });
