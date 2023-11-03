@@ -23,6 +23,9 @@ export const insertBook = (library: Library = getLibrary()) => {
             id: newBookId,
             title: req.body.title
         }
-        res.status(201).send(responseBody)
+        const location = `/books/${newBookId}`
+        res.status(201)
+            .setHeader('location',location)
+            .send(responseBody)
     };
 }
