@@ -7,9 +7,9 @@ describe('Given a new book not in catalogue', () => {
         it('then should have a success and return the object inserted with id', async () => {
             const response = await request(app).post("/books").send(newBook);
             expect(response.statusCode).toBe(201);
-            expect(response.header).toHaveProperty('location')
             expect(response.body).toHaveProperty('id');
             expect(response.body.title).toBe(newBook.title)
+            expect(response.header).toHaveProperty('location')
         });
     });
 });
