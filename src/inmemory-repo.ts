@@ -8,7 +8,7 @@ export class InMemoryRepo implements Repo{
     }
 
     get(bookId: string): BookDto {
-        throw new Error("Method not implemented.")
+        return this.books[parseInt(bookId)]
     }
 
 }
