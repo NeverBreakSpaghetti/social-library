@@ -37,3 +37,13 @@ describe('POST /books', () => {
         expect(response.body).toHaveProperty('title', newBook.title);
     });
 });
+
+describe('GET /books/:id', () => {
+    it('should return a response with status 404 when the book is not in catalogue', async () => {
+        const bookId = '9999999'
+
+        const response = await request(app).get(`/books/${bookId}`)
+
+        expect(response.statusCode).toBe(404);
+    });
+});
