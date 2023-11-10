@@ -1,4 +1,4 @@
-import {BookDto} from "./bookDto";
+import {BookDto, isValid} from "./bookDto";
 
 export interface Repo {
     get(bookId: string): BookDto;
@@ -9,7 +9,7 @@ export default class Library {
     constructor(private readonly libraryRepo: Repo) {}
 
     public add(book: BookDto): number {
-        if(!book.title)
+        if(!isValid(book) || !book.title)
             throw new Error('Book not valid')
         return this.libraryRepo.save(book);
     }

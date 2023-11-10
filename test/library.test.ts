@@ -46,6 +46,13 @@ describe('Library', () => {
 
             expect(addedBookId).toEqual(expect.any(Number))
         });
+
+        it('should throw an error when input is not a bookDto', () => {
+            const library = new Library(repoMock);
+            const notABookDto = {title: "Not a bookDto", anotherProperty: "property not in bookDto" }
+
+            expect(()=>library.add(notABookDto)).toThrow('Book not valid');
+        });
     });
 
     describe('get', () => {
