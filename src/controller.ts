@@ -1,10 +1,10 @@
-import Library, {Repo} from "./library";
+import Library from "./library";
 import {Request, Response} from "express";
-import {BookDto} from "./bookDto";
+import {InMemoryRepo} from "./inmemory-repo";
 
+const repo = new InMemoryRepo();
 export const getLibrary = () => {
-    // per passare in fretta i test metto momentaneamente sta porcheria
-    return new Library(new class implements Repo {get(id: string){return {title: 'Fake'}}; save(book: BookDto) {return 1}});
+    return new Library(repo);
 };
 
 export const insertBook = (library: Library = getLibrary()) => {
@@ -33,9 +33,11 @@ export const insertBook = (library: Library = getLibrary()) => {
 export const getBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const bookId = req.url.split('books/')[1];
-        const book = library.get(bookId);
-        if(!book)
-            res.status(404).send();
-        res.status(200).send(book);
+        try {
+            const book = library.get(bookId)
+            res.status(200).send(book)
+        }catch (e) {
+            res.status(404).send()
+        }
     };
 }

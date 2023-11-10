@@ -31,5 +31,10 @@ describe('InMemoryRepo', () => {
 
             expect(repo.get(bookId.toString())).toEqual(book)
         });
+        it('should return en error when book exists', () => {
+            const repo = new InMemoryRepo()
+
+            expect(()=>repo.get('0')).toThrow()
+        });
     });
 });

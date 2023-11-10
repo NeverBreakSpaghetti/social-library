@@ -8,7 +8,10 @@ export class InMemoryRepo implements Repo{
     }
 
     get(bookId: string): BookDto {
-        return this.books[parseInt(bookId)]
+        const book = this.books[parseInt(bookId)]
+        if(!book)
+            throw new Error('Book not found')
+        return book
     }
 
 }
