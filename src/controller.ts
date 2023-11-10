@@ -29,3 +29,13 @@ export const insertBook = (library: Library = getLibrary()) => {
             .send(responseBody)
     };
 }
+
+export const getBook = (library: Library = getLibrary()) => {
+    return (req: Request, res: Response) => {
+        const bookId = req.url.split('books/')[1];
+        const book = library.get(bookId);
+        if(!book)
+            res.status(404).send();
+        res.status(200).send(book);
+    };
+}

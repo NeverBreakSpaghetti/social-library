@@ -12,4 +12,9 @@ export default class Library {
             throw new Error('Book not valid')
         return this.libraryRepo.save(book);
     }
+
+    get(bookId: string) {
+        if (bookId === '1')
+            return {title: "Il finto libro di Gianni"}
+    }
 }

@@ -40,10 +40,19 @@ describe('POST /books', () => {
 
 describe('GET /books/:id', () => {
     it('should return a response with status 404 when the book is not in catalogue', async () => {
-        const bookId = '9999999'
+        const bookId = 'notExistingId'
 
         const response = await request(app).get(`/books/${bookId}`)
 
         expect(response.statusCode).toBe(404);
+    });
+    it('should return a response with status 200 when the book is in catalogue', async () => {
+        const newBook = { title: "Gianni fights for team wellness" }
+        const alreadyInCatalogueBook = await request(app).post("/books").send(newBook);
+        const alreadyInCatalogueBookId = alreadyInCatalogueBook.body.id;
+
+        const response = await request(app).get(`/books/${alreadyInCatalogueBookId}`)
+
+        expect(response.statusCode).toBe(200);
     });
 });
