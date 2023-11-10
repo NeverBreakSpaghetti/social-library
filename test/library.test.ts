@@ -5,6 +5,7 @@ let repoMock: Repo
 describe('Library', () => {
     beforeAll(() => {
         repoMock = {
+            get: jest.fn(),
             save: jest.fn().mockReturnValue(1)
         }
     })
@@ -44,6 +45,16 @@ describe('Library', () => {
             const addedBookId = library.add(bookDto);
 
             expect(addedBookId).toEqual(expect.any(Number))
+        });
+    });
+
+    describe('get', () => {
+        it('should search the book', () => {
+            const library = new Library(repoMock);
+
+            library.get('1');
+
+            expect(repoMock.get).toHaveBeenCalled()
         });
     });
 });

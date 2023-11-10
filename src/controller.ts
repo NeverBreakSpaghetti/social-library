@@ -4,7 +4,7 @@ import {BookDto} from "./bookDto";
 
 export const getLibrary = () => {
     // per passare in fretta i test metto momentaneamente sta porcheria
-    return new Library(new class implements Repo {save(book: BookDto) {return 1}});
+    return new Library(new class implements Repo {get(id: string){return {title: 'Fake'}}; save(book: BookDto) {return 1}});
 };
 
 export const insertBook = (library: Library = getLibrary()) => {

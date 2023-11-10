@@ -7,4 +7,8 @@ export class InMemoryRepo implements Repo{
         return this.books.push(book) -1;
     }
 
+    get(bookId: string): BookDto {
+        throw new Error("Method not implemented.")
+    }
+
 }
