@@ -14,13 +14,13 @@ export default class Library {
         return this.libraryRepo.save(book);
     }
 
-    get(bookId: string) {
+    get(bookId: string): BookDto {
+        let book: BookDto
         try {
-            this.libraryRepo.get(bookId);
+            book = this.libraryRepo.get(bookId);
         }catch (e){
             throw new Error('Book not found')
         }
-        if (bookId === '1')
-            return {title: "Il finto libro di Gianni"}
+        return book
     }
 }
