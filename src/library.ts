@@ -17,7 +17,9 @@ export default class Library {
     get(bookId: string) {
         try {
             this.libraryRepo.get(bookId);
-        }catch (e){}
+        }catch (e){
+            throw new Error('Book not found')
+        }
         if (bookId === '1')
             return {title: "Il finto libro di Gianni"}
     }

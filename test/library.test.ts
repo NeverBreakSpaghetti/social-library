@@ -56,5 +56,12 @@ describe('Library', () => {
 
             expect(repoMock.get).toHaveBeenCalled()
         });
+
+        it('should throw an error when book not exists', () => {
+            jest.spyOn(repoMock, 'get').mockImplementation(() => {throw new Error('Book not found')})
+            const library = new Library(repoMock);
+
+            expect(()=>library.get('notExistingId')).toThrow('Book not found');
+        });
     });
 });
