@@ -97,5 +97,20 @@ describe('Library', () => {
 
             expect(()=>library.getAllBooks()).toThrow('Empty catalogue');
         });
+        it('should return an array of BookWithIdDto with all books in catalogue when catalogue is not empty', () => {
+            jest.spyOn(repoMock, 'getAllBooks').mockImplementation(() => {
+                return [
+                    {id: '1', title: "Gianni's hitchhiker's guide to the galaxy", author: "Douglas Adams", pages: 42},
+                    {id: '2', title: "Gianni's guide to best north Italy pubs", author: "Gianni"},
+                ]
+            })
+            const library = new Library(repoMock);
+
+            const books = library.getAllBooks();
+
+            expect(books.length).toBe(2)
+            expect(books[0]).toEqual({id: '1', title: "Gianni's hitchhiker's guide to the galaxy", author: "Douglas Adams", pages: 42})
+            expect(books[1]).toEqual({id: '2', title: "Gianni's guide to best north Italy pubs", author: "Gianni"})
+        });
     });
 });

@@ -20,11 +20,13 @@ export default class Library {
         return book
     }
 
-    getAllBooks = () => {
+    getAllBooks = (): BookWithIdDto[] => {
+        let books: BookWithIdDto[]
         try {
-            this.libraryRepo.getAllBooks()
+            books = this.libraryRepo.getAllBooks()
         }catch (e){
             throw new Error('Empty catalogue')
         }
+        return books
     }
 }
