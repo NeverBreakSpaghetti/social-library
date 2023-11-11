@@ -1,9 +1,5 @@
 import {BookDto, BookWithIdDto, isValid} from "./bookDto";
-
-export interface Repo {
-    get(bookId: string): BookWithIdDto;
-    save(book: BookDto): number;
-}
+import {Repo} from "./repo";
 
 export default class Library {
     constructor(private readonly libraryRepo: Repo) {}

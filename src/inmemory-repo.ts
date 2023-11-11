@@ -1,4 +1,4 @@
-import {Repo} from "./library";
+import {Repo} from "./repo";
 import {BookDto, BookWithIdDto} from "./bookDto";
 
 export class InMemoryRepo implements Repo{
