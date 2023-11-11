@@ -28,10 +28,10 @@ describe('Given a book already in catalogue', () => {
             const response = await request(app).get(`/books/${bookId}`);
 
             expect(response.statusCode).toBe(200);
-            expect(response.body).toHaveProperty('id', bookId);
             expect(response.body).toHaveProperty('title', newBook.title);
-            expect(response.body).toHaveProperty('author', 'Mauro');
-            expect(response.body).toHaveProperty('pages', 4242);
+            expect(response.body).toHaveProperty('author', newBook.author);
+            expect(response.body).toHaveProperty('pages', newBook.pages);
+            expect(response.body).toHaveProperty('id', bookId);
         });
     });
 });
