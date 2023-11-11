@@ -71,13 +71,13 @@ describe('Library', () => {
             expect(()=>library.get('notExistingId')).toThrow('Book not found');
         });
 
-        it('should return a BookDto when book is found', () => {
+        it('should return a BookWithIdDto when book is found', () => {
             jest.spyOn(repoMock, 'get').mockImplementation(():BookDto => {return {title: "Il finto libro di Gianni"}})
             const library = new Library(repoMock);
 
             const book: BookDto = library.get('1');
 
-            expect(book).toEqual({title: "Il finto libro di Gianni"})
+            expect(book).toEqual({id: '1', title: "Il finto libro di Gianni"})
         });
     });
 });

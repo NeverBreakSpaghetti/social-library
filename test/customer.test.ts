@@ -31,7 +31,7 @@ describe('Given a book already in catalogue', () => {
             expect(response.body).toHaveProperty('title', newBook.title);
             expect(response.body).toHaveProperty('author', newBook.author);
             expect(response.body).toHaveProperty('pages', newBook.pages);
-            expect(response.body).toHaveProperty('id', bookId);
+            expect(response.body).toHaveProperty('id', bookId.toString());
         });
     });
 });

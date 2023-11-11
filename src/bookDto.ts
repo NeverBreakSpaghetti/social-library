@@ -4,6 +4,10 @@ export interface BookDto {
     pages?: number;
 }
 
+export interface BookWithIdDto extends BookDto {
+    id: string;
+}
+
 export const isValid = (bookToValidate: any) => {
     const keys = Object.keys(bookToValidate);
     if (keys.length < 1 || keys.length > 3)

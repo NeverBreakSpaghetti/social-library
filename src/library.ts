@@ -1,4 +1,4 @@
-import {BookDto, isValid} from "./bookDto";
+import {BookDto, BookWithIdDto, isValid} from "./bookDto";
 
 export interface Repo {
     get(bookId: string): BookDto;
@@ -14,13 +14,13 @@ export default class Library {
         return this.libraryRepo.save(book);
     }
 
-    get(bookId: string): BookDto {
+    get(bookId: string): BookWithIdDto {
         let book: BookDto
         try {
             book = this.libraryRepo.get(bookId);
         }catch (e){
             throw new Error('Book not found')
         }
-        return book
+        return {...book, id: bookId}
     }
 }
