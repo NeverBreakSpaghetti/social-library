@@ -1,10 +1,12 @@
-import Library, {Repo} from "../src/library";
+import Library from "../src/library";
 import {BookDto, BookWithIdDto} from "../src/bookDto";
+import {Repo} from "../src/repo";
 
 let repoMock: Repo
 describe('Library', () => {
     beforeAll(() => {
         repoMock = {
+            getAllBooks: jest.fn(),
             get: jest.fn(),
             save: jest.fn().mockReturnValue(1)
         }
@@ -78,6 +80,16 @@ describe('Library', () => {
             const book: BookDto = library.get('1');
 
             expect(book).toEqual({id: '1', title: "Il finto libro di Gianni"})
+        });
+    });
+
+    describe('getAllBooks', () => {
+        it('should search all books', () => {
+            const library = new Library(repoMock);
+
+            library.getAllBooks();
+
+            expect(repoMock.getAllBooks).toHaveBeenCalled()
         });
     });
 });

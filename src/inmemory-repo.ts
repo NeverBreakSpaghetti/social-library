@@ -14,4 +14,8 @@ export class InMemoryRepo implements Repo{
         return {...book, id: bookId}
     }
 
+    getAllBooks(): BookWithIdDto[] {
+        throw new Error('Not implemented')
+    }
+
 }

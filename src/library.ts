@@ -21,6 +21,6 @@ export default class Library {
     }
 
     getAllBooks = () => {
-        throw new Error('Not implemented')
+        this.libraryRepo.getAllBooks()
     }
 }
