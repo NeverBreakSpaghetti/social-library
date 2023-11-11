@@ -1,5 +1,5 @@
 import Library, {Repo} from "../src/library";
-import {BookDto} from "../src/bookDto";
+import {BookDto, BookWithIdDto} from "../src/bookDto";
 
 let repoMock: Repo
 describe('Library', () => {
@@ -72,7 +72,7 @@ describe('Library', () => {
         });
 
         it('should return a BookWithIdDto when book is found', () => {
-            jest.spyOn(repoMock, 'get').mockImplementation(():BookDto => {return {title: "Il finto libro di Gianni"}})
+            jest.spyOn(repoMock, 'get').mockImplementation(():BookWithIdDto => {return {id: '1', title: "Il finto libro di Gianni"}})
             const library = new Library(repoMock);
 
             const book: BookDto = library.get('1');

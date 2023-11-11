@@ -23,13 +23,13 @@ describe('InMemoryRepo', () => {
     });
 
     describe('get', () => {
-        it('should return a bookDto when book exists', () => {
+        it('should return a bookWithIdDto when book exists', () => {
             const repo = new InMemoryRepo()
             const book = {title: 'I talk di un Extreme Programmer'}
 
             const bookId = repo.save(book)
 
-            expect(repo.get(bookId.toString())).toEqual(book)
+            expect(repo.get(bookId.toString())).toEqual({...book, id: bookId.toString()})
         });
         it('should return en error when book exists', () => {
             const repo = new InMemoryRepo()

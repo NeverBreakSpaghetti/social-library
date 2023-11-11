@@ -1,5 +1,5 @@
 import {Repo} from "./library";
-import {BookDto} from "./bookDto";
+import {BookDto, BookWithIdDto} from "./bookDto";
 
 export class InMemoryRepo implements Repo{
     private books: BookDto[] = [];
@@ -7,11 +7,11 @@ export class InMemoryRepo implements Repo{
         return this.books.push(book) -1;
     }
 
-    get(bookId: string): BookDto {
+    get(bookId: string): BookWithIdDto {
         const book = this.books[parseInt(bookId)]
         if(!book)
             throw new Error('Book not found')
-        return book
+        return {...book, id: bookId}
     }
 
 }
