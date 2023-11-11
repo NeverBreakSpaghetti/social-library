@@ -35,3 +35,55 @@ describe('Given a book already in catalogue', () => {
         });
     });
 });
+
+describe('Given more books already in catalogue', () => {
+    describe('when get a list of all books in catalogue', () => {
+        it('should have success and return all the books', async () => {
+            const newFirstBook = {
+                title: "Gianni clean code master",
+                author: "Mauro",
+                pages: 4242,
+            }
+            const newSecondBook = {
+                title: "Gianni clean code ninja",
+                author: "Luca",
+                pages: 1984,
+            }
+            const newThirdBook = {
+                title: "Gianni clean code guru",
+                author: "Giulia",
+                pages: 101,
+            }
+            await request(app).post("/books").send(newFirstBook);
+            await request(app).post("/books").send(newSecondBook);
+            await request(app).post("/books").send(newThirdBook);
+
+            const response = await request(app).get(`/books`);
+
+            expect(response.statusCode).toBe(200);
+            expect(response.body.length).toBeGreaterThan(0);
+            expect(response.body).toMatchObject(
+                expect.arrayContaining([
+                    {
+                        id: expect.any(String),
+                        title: "Gianni clean code master",
+                        author: "Mauro",
+                        pages: 4242,
+                    },
+                    {
+                        id: expect.any(String),
+                        title: "Gianni clean code ninja",
+                        author: "Luca",
+                        pages: 1984,
+                    },
+                    {
+                        id: expect.any(String),
+                        title: "Gianni clean code guru",
+                        author: "Giulia",
+                        pages: 101,
+                    }
+                ]),
+            );
+        });
+    });
+});

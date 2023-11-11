@@ -56,3 +56,18 @@ describe('GET /books/:id', () => {
         expect(response.statusCode).toBe(200);
     });
 });
+
+describe('GET /books', () => {
+    it('should return a response with status 200 when the book is in catalogue', async () => {
+        const newBook = {
+            title: "Gianni DDD passionate",
+            author: 'Kent Back',
+            pages: 4242,
+        }
+        await request(app).post("/books").send(newBook);
+
+        const response = await request(app).get(`/books`)
+
+        expect(response.statusCode).toBe(200);
+    });
+});

@@ -41,3 +41,9 @@ export const getBook = (library: Library = getLibrary()) => {
         }
     };
 }
+
+export const getAllBooks = (library: Library = getLibrary()) => {
+    return (req: Request, res: Response) => {
+        res.status(200).send()
+    }
+};
