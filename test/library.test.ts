@@ -91,5 +91,11 @@ describe('Library', () => {
 
             expect(repoMock.getAllBooks).toHaveBeenCalled()
         });
+        it('should throw an error when catalogue is empty', () => {
+            jest.spyOn(repoMock, 'getAllBooks').mockImplementation(() => {throw new Error('Empty catalogue')})
+            const library = new Library(repoMock);
+
+            expect(()=>library.getAllBooks()).toThrow('Empty catalogue');
+        });
     });
 });

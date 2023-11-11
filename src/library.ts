@@ -21,6 +21,10 @@ export default class Library {
     }
 
     getAllBooks = () => {
-        this.libraryRepo.getAllBooks()
+        try {
+            this.libraryRepo.getAllBooks()
+        }catch (e){
+            throw new Error('Empty catalogue')
+        }
     }
 }
