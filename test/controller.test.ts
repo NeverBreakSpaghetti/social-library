@@ -70,4 +70,9 @@ describe('GET /books', () => {
 
         expect(response.statusCode).toBe(200);
     });
+    it('should return a response with status 404 when catalogue is empty', async () => {
+        const response = await request(app).get(`/books`)
+
+        expect(response.statusCode).toBe(404);
+    });
 });

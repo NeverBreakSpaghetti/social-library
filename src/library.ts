@@ -19,4 +19,8 @@ export default class Library {
         }
         return book
     }
+
+    getAllBooks = () => {
+        throw new Error('Not implemented')
+    }
 }
