@@ -1,5 +1,6 @@
 import {InMemoryRepo} from "../src/inmemory-repo";
 import {getAllBooks} from "../src/controller";
+import {BookDto} from "../src/bookDto";
 
 describe('InMemoryRepo', () => {
     describe('save', () => {
@@ -42,6 +43,19 @@ describe('InMemoryRepo', () => {
             const repo = new InMemoryRepo()
 
             expect(()=> repo.getAllBooks()).toThrow('Catalogue is empty')
+        });
+        it('should return all books', () => {
+            const repo = new InMemoryRepo()
+            const firstBook: BookDto = {title: 'I mille workshop di Gianni', pages: 1000}
+            const secondBook: BookDto = {title: 'I consigli di un navigato mentor', author: 'Gianni'}
+
+            const firstBookId = repo.save(firstBook)
+            const secondBookId =  repo.save(secondBook)
+
+            expect(repo.getAllBooks()).toEqual([
+                {...firstBook, id: firstBookId.toString()},
+                {...secondBook, id: secondBookId.toString()}
+            ])
         });
     });
 });

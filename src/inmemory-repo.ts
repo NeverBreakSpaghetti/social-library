@@ -15,7 +15,9 @@ export class InMemoryRepo implements Repo{
     }
 
     getAllBooks(): BookWithIdDto[] {
-        throw new Error('Catalogue is empty')
+        if(this.books.length === 0)
+            throw new Error('Catalogue is empty')
+        return this.books.map((book, index): BookWithIdDto => ({...book, id: index.toString()}))
     }
 
 }
