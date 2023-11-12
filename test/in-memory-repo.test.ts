@@ -17,8 +17,6 @@ describe('InMemoryRepo', () => {
             const firstId = repo.save(firstBook)
             const secondId = repo.save(secondBook)
 
-            console.log(firstId, secondId)
-
             expect(firstId).not.toEqual(secondId)
         });
     });
