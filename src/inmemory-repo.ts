@@ -15,7 +15,7 @@ export class InMemoryRepo implements Repo{
     }
 
     getAllBooks(): BookWithIdDto[] {
-        throw new Error('Not implemented')
+        throw new Error('Catalogue is empty')
     }
 
 }

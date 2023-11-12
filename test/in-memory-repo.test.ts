@@ -1,4 +1,5 @@
 import {InMemoryRepo} from "../src/inmemory-repo";
+import {getAllBooks} from "../src/controller";
 
 describe('InMemoryRepo', () => {
     describe('save', () => {
@@ -35,6 +36,14 @@ describe('InMemoryRepo', () => {
             const repo = new InMemoryRepo()
 
             expect(()=>repo.get('0')).toThrow()
+        });
+    });
+
+    describe('getAllBooks', () => {
+        it('should return an empty array when no books', () => {
+            const repo = new InMemoryRepo()
+
+            expect(()=> repo.getAllBooks()).toThrow('Catalogue is empty')
         });
     });
 });
