@@ -1,5 +1,6 @@
 import {BookDto, BookWithIdDto, isValid} from "./bookDto";
 import {Repo} from "./repo";
+import {v4 as uuid} from 'uuid';
 
 export default class Library {
     constructor(private readonly libraryRepo: Repo) {}
@@ -28,5 +29,9 @@ export default class Library {
             throw new Error('Empty catalogue')
         }
         return books
+    }
+
+    generateId(): string {
+        return uuid()
     }
 }

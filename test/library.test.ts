@@ -113,4 +113,17 @@ describe('Library', () => {
             expect(books[1]).toEqual({id: '2', title: "Gianni's guide to best north Italy pubs", author: "Gianni"})
         });
     });
+
+    describe('generateId', () => {
+        it('should generate a new uuid', () => {
+            const library = new Library(repoMock);
+
+            expect(library.generateId()).toEqual(expect.any(String));
+        });
+        it('should generate different uuids', () => {
+            const library = new Library(repoMock);
+
+            expect(library.generateId()).not.toEqual(library.generateId());
+        });
+    });
 });
