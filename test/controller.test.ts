@@ -99,4 +99,9 @@ describe('mapRequestBodyToBook', () => {
 
         expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
     });
+    it('should throw an error when title is empty', () => {
+        const body = {title: '', author: 'Giulia', pages: 43}
+
+        expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
+    });
 });
