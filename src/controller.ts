@@ -1,17 +1,32 @@
 import Library from "./library";
 import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
+import {isValid} from "./bookDto";
 
 const repo = new InMemoryRepo();
 export const getLibrary = () => {
     return new Library(repo);
 };
 
+interface Book {
+    title: string;
+    author?: string;
+    pages?: number;
+}
+
+export const mapRequestBodyToBook = (body: any): Book => {
+    if(!isValid(body))
+        throw new Error('Book not valid')
+    return {title: body.title, author: body.author, pages: body.pages}
+};
+
 export const insertBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         let newBookId;
         try {
-            newBookId = library.add(req.body)
+            const id = library.generateId();
+            const book: Book = mapRequestBodyToBook(req.body)
+            newBookId = library.add(id, book)
         }catch (e){
             if(e instanceof Error) {
                 const errorMessages = e.message;

@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from "../src/app";
+import * as controller from "../src/controller";
 // import Library from "../src/library";
 // import * as controller from "../src/controller";
 
@@ -58,6 +59,11 @@ describe('GET /books/:id', () => {
 });
 
 describe('GET /books', () => {
+    it('should return a response with status 404 when catalogue is empty', async () => {
+        const response = await request(app).get(`/books`)
+
+        expect(response.statusCode).toBe(404);
+    });
     it('should return a response with status 200 when the book is in catalogue', async () => {
         const newBook = {
             title: "Gianni DDD passionate",
@@ -70,9 +76,27 @@ describe('GET /books', () => {
 
         expect(response.statusCode).toBe(200);
     });
-    it('should return a response with status 404 when catalogue is empty', async () => {
-        const response = await request(app).get(`/books`)
+});
 
-        expect(response.statusCode).toBe(404);
+describe('mapRequestBodyToBook', () => {
+    it('should map a body with title', () => {
+        const body = {title: 'Gianni Dungeon Master'}
+
+        expect(controller.mapRequestBodyToBook(body)).toEqual({title: 'Gianni Dungeon Master'})
+    });
+    it('should map a body with all book fields', () => {
+        const body = {title: 'Gianni\'s evaluation of Klingon war tactics', author: 'Gianni', pages: 6000}
+
+        expect(controller.mapRequestBodyToBook(body)).toEqual({title: 'Gianni\'s evaluation of Klingon war tactics', author: 'Gianni', pages: 6000})
+    });
+    it('should throw an error when is empty body', () => {
+        const body = {}
+
+        expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
+    });
+    it('should throw an error when is not correctly formatted body', () => {
+        const body = {title: 'Gianni\'s space driving school. Theory and practice', fieldNotValid: 'not valid'}
+
+        expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
     });
 });
