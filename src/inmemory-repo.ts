@@ -1,23 +1,24 @@
 import {Repo} from "./repo";
-import {BookDto, BookWithIdDto} from "./bookDto";
+import {BookEntity} from "./book-entity";
 
 export class InMemoryRepo implements Repo{
-    private books: BookDto[] = [];
-    save(book: BookDto): number {
-        return this.books.push(book) -1;
+    private bookEntities: BookEntity[] = [];
+    save(book: BookEntity): void {
+        this.bookEntities.push(book)
     }
 
-    get(bookId: string): BookWithIdDto {
-        const book = this.books[parseInt(bookId)]
-        if(!book)
+    get(bookId: string): BookEntity {
+        const bookEntity = this.bookEntities.find(bookEntity => bookEntity['id'] === bookId)
+        if(!bookEntity)
             throw new Error('Book not found')
-        return {...book, id: bookId}
+        return bookEntity
     }
 
-    getAllBooks(): BookWithIdDto[] {
-        if(this.books.length === 0)
+    getAllBooks(): BookEntity[] {
+        if(this.bookEntities.length === 0) {
             throw new Error('Catalogue is empty')
-        return this.books.map((book, index): BookWithIdDto => ({...book, id: index.toString()}))
+        }
+        return Array.from(this.bookEntities)
     }
 
 }

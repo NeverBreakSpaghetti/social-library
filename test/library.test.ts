@@ -1,6 +1,7 @@
 import Library from "../src/library";
-import {BookDto, BookWithIdDto} from "../src/bookDto";
 import {Repo} from "../src/repo";
+import {Book} from "../src/book";
+import {BookEntity} from "../src/book-entity";
 
 let repoMock: Repo
 describe('Library', () => {
@@ -17,43 +18,22 @@ describe('Library', () => {
     })
 
     describe('add', () => {
-        it('should accept a bookDto ad input', () => {
+        it('should accept a book and an id as input', () => {
             const library = new Library(repoMock);
-            const bookDto: BookDto = {title: "Le avventure di Gianni in montagna" }
+            const book: Book = {title: "Le avventure di Gianni in montagna" }
+            const id = "uuid"
 
-            expect(()=>library.add(bookDto)).not.toThrow();
-        });
-
-        it('should throw an error when input has not title', () => {
-            const library = new Library(repoMock);
-            const otherInput = {title: "" }
-
-            expect(()=>library.add(otherInput)).toThrow('Book not valid');
+            expect(()=>library.add(id, book)).not.toThrow();
         });
 
         it('should save the book', () => {
             const library = new Library(repoMock);
-            const bookDto: BookDto = {title: "Le avventure di Gianni in montagna" }
+            const book: Book = {title: "Le avventure di Gianni in montagna" }
+            const id = "uuid"
 
-            library.add(bookDto);
+            library.add(id, book);
 
-            expect(repoMock.save).toHaveBeenCalledWith({title: "Le avventure di Gianni in montagna"})
-        });
-
-        it('should return the saved book id', () => {
-            const library = new Library(repoMock);
-            const bookDto: BookDto = {title: "Le avventure di Gianni in montagna" }
-
-            const addedBookId = library.add(bookDto);
-
-            expect(addedBookId).toEqual(expect.any(Number))
-        });
-
-        it('should throw an error when input is not a bookDto', () => {
-            const library = new Library(repoMock);
-            const notABookDto = {title: "Not a bookDto", anotherProperty: "property not in bookDto" }
-
-            expect(()=>library.add(notABookDto)).toThrow('Book not valid');
+            expect(repoMock.save).toHaveBeenCalledWith({id: "uuid", title: "Le avventure di Gianni in montagna"})
         });
     });
 
@@ -61,7 +41,7 @@ describe('Library', () => {
         it('should search the book', () => {
             const library = new Library(repoMock);
 
-            library.get('1');
+            library.get('uuid');
 
             expect(repoMock.get).toHaveBeenCalled()
         });
@@ -70,16 +50,16 @@ describe('Library', () => {
             jest.spyOn(repoMock, 'get').mockImplementation(() => {throw new Error('Book not found')})
             const library = new Library(repoMock);
 
-            expect(()=>library.get('notExistingId')).toThrow('Book not found');
+            expect(()=>library.get('notExistingUuid')).toThrow('Book not found');
         });
 
-        it('should return a BookWithIdDto when book is found', () => {
-            jest.spyOn(repoMock, 'get').mockImplementation(():BookWithIdDto => {return {id: '1', title: "Il finto libro di Gianni"}})
+        it('should return a BookEntity when book is found', () => {
+            jest.spyOn(repoMock, 'get').mockImplementation(():BookEntity => {return BookEntity.create('uuid', {title: "Il finto libro di Gianni"})})
             const library = new Library(repoMock);
 
-            const book: BookDto = library.get('1');
+            const book: BookEntity = library.get('uuid');
 
-            expect(book).toEqual({id: '1', title: "Il finto libro di Gianni"})
+            expect(book).toEqual({id: 'uuid', title: "Il finto libro di Gianni"})
         });
     });
 
@@ -100,8 +80,8 @@ describe('Library', () => {
         it('should return an array of BookWithIdDto with all books in catalogue when catalogue is not empty', () => {
             jest.spyOn(repoMock, 'getAllBooks').mockImplementation(() => {
                 return [
-                    {id: '1', title: "Gianni's hitchhiker's guide to the galaxy", author: "Douglas Adams", pages: 42},
-                    {id: '2', title: "Gianni's guide to best north Italy pubs", author: "Gianni"},
+                    BookEntity.create('uuid1', {title: "Gianni's hitchhiker's guide to the galaxy", author: "Douglas Adams", pages: 42}),
+                    BookEntity.create('uuid2', {title: "Gianni's guide to best north Italy pubs", author: "Gianni"}),
                 ]
             })
             const library = new Library(repoMock);
@@ -109,8 +89,8 @@ describe('Library', () => {
             const books = library.getAllBooks();
 
             expect(books.length).toBe(2)
-            expect(books[0]).toEqual({id: '1', title: "Gianni's hitchhiker's guide to the galaxy", author: "Douglas Adams", pages: 42})
-            expect(books[1]).toEqual({id: '2', title: "Gianni's guide to best north Italy pubs", author: "Gianni"})
+            expect(books[0]).toEqual({id: 'uuid1', title: "Gianni's hitchhiker's guide to the galaxy", author: "Douglas Adams", pages: 42})
+            expect(books[1]).toEqual({id: 'uuid2', title: "Gianni's guide to best north Italy pubs", author: "Gianni"})
         });
     });
 

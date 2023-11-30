@@ -1,7 +1,7 @@
-import {BookDto, BookWithIdDto} from "./bookDto";
+import {BookEntity} from "./book-entity";
 
 export interface Repo {
-    getAllBooks(): BookWithIdDto[];
-    get(bookId: string): BookWithIdDto;
-    save(book: BookDto): number;
+    getAllBooks(): BookEntity[];
+    get(bookId: string): BookEntity;
+    save(book: BookEntity): void;
 }

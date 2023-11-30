@@ -1,40 +1,35 @@
 import {InMemoryRepo} from "../src/inmemory-repo";
-import {getAllBooks} from "../src/controller";
-import {BookDto} from "../src/bookDto";
+import {Book} from "../src/bookDto";
+import {BookEntity} from "../src/book-entity";
 
 describe('InMemoryRepo', () => {
+
     describe('save', () => {
-        it('should save a book returning his id', () => {
+        it('should save a book', () => { // stesso test sotto => posso unire i due test
             const repo = new InMemoryRepo()
-            const book = {title: 'Le memorie di uno Scrum Master'}
+            const book: Book = {title: 'Le memorie di uno Scrum Master'}
+            const id = "uuid"
 
-            expect(repo.save(book)).toEqual(expect.any(Number))
+            repo.save(BookEntity.create(id, book))
+
+            expect(repo.get("uuid")).toEqual({...book, id: "uuid"})
         });
-        it('should save multiple books returning different ids', () => {
-            const repo = new InMemoryRepo()
-            const firstBook = {title: 'Le memorie di uno Scrum Master'}
-            const secondBook = {title: 'La barba saggia che racconta XP'}
-
-            const firstId = repo.save(firstBook)
-            const secondId = repo.save(secondBook)
-
-            expect(firstId).not.toEqual(secondId)
-        });
-    });
+    })
 
     describe('get', () => {
-        it('should return a bookWithIdDto when book exists', () => {
+        it('should return a bookWithIdDto when book exists', () => { // stesso test supra => posso unire i due test
             const repo = new InMemoryRepo()
             const book = {title: 'I talk di un Extreme Programmer'}
+            const id = "uuid"
 
-            const bookId = repo.save(book)
+            repo.save(BookEntity.create(id, book))
 
-            expect(repo.get(bookId.toString())).toEqual({...book, id: bookId.toString()})
+            expect(repo.get("uuid")).toEqual({...book, id: "uuid"})
         });
         it('should return en error when book exists', () => {
             const repo = new InMemoryRepo()
 
-            expect(()=>repo.get('0')).toThrow()
+            expect(()=>repo.get('notExistsThisUuid')).toThrow()
         });
     });
 
@@ -46,16 +41,19 @@ describe('InMemoryRepo', () => {
         });
         it('should return all books', () => {
             const repo = new InMemoryRepo()
-            const firstBook: BookDto = {title: 'I mille workshop di Gianni', pages: 1000}
-            const secondBook: BookDto = {title: 'I consigli di un navigato mentor', author: 'Gianni'}
+            const firstBook: Book = {title: 'I mille workshop di Gianni', pages: 1000}
+            const firstId = 'uuid1'
+            const secondBook: Book = {title: 'I consigli di un navigato mentor', author: 'Gianni'}
+            const secondId = 'uuid2'
 
-            const firstBookId = repo.save(firstBook)
-            const secondBookId =  repo.save(secondBook)
+            repo.save(BookEntity.create(firstId, firstBook))
+            repo.save(BookEntity.create(secondId, secondBook))
 
             expect(repo.getAllBooks()).toEqual([
-                {...firstBook, id: firstBookId.toString()},
-                {...secondBook, id: secondBookId.toString()}
+                {...firstBook, id: firstId},
+                {...secondBook, id: secondId}
             ])
         });
+        it('should not modify internal bookEntities when edit array resulting from getAllBooks', () => {}) //TODO
     });
 });

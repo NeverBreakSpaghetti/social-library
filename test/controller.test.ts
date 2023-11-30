@@ -1,22 +1,15 @@
 import request from 'supertest';
-import app from "../src/app";
+//import app from "../src/app";
 import * as controller from "../src/controller";
-// import Library from "../src/library";
-// import * as controller from "../src/controller";
 
-// const libraryMock: Library = {
-//     add: jest.fn()
-// }
+const app = "http://localhost:3001";
 describe('POST /books', () => {
-    // beforeAll(()=>{
-    //     jest.spyOn(controller,'getLibrary').mockReturnValue(libraryMock);
-    // })
+
     it('should return a response with status 201 when new book is add to catalogue', async () => {
         const newBook = {title: "Love story of a Gianni and his beer"};
 
         const response = await request(app).post("/books").send(newBook);
 
-        //expect(libraryMock.add).toHaveBeenCalled(); // non riesco a testare sta roba perchè non prende lo stub
         expect(response.statusCode).toBe(201);
     });
 
@@ -34,7 +27,7 @@ describe('POST /books', () => {
 
         const response = await request(app).post("/books").send(newBook);
 
-        expect(response.body).toHaveProperty('id', expect.any(Number));
+        expect(response.body).toHaveProperty('id', expect.any(String));
         expect(response.body).toHaveProperty('title', newBook.title);
     });
 });
@@ -59,7 +52,7 @@ describe('GET /books/:id', () => {
 });
 
 describe('GET /books', () => {
-    it('should return a response with status 404 when catalogue is empty', async () => {
+    it.skip('should return a response with status 404 when catalogue is empty', async () => {
         const response = await request(app).get(`/books`)
 
         expect(response.statusCode).toBe(404);

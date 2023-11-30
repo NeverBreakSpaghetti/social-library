@@ -1,18 +1,18 @@
-import {BookDto, BookWithIdDto, isValid} from "./bookDto";
 import {Repo} from "./repo";
 import {v4 as uuid} from 'uuid';
+import {Book} from "./book";
+import {BookEntity} from "./book-entity";
 
 export default class Library {
     constructor(private readonly libraryRepo: Repo) {}
 
-    public add(book: BookDto): number {
-        if(!isValid(book) || !book.title)
-            throw new Error('Book not valid')
-        return this.libraryRepo.save(book);
+    public add(id: string, book: Book): void {
+        const bookEntity: BookEntity = BookEntity.create(id, book)
+        this.libraryRepo.save(bookEntity);
     }
 
-    get(bookId: string): BookWithIdDto {
-        let book: BookWithIdDto
+    get(bookId: string): BookEntity {
+        let book: BookEntity
         try {
             book = this.libraryRepo.get(bookId);
         }catch (e){
@@ -21,8 +21,8 @@ export default class Library {
         return book
     }
 
-    getAllBooks = (): BookWithIdDto[] => {
-        let books: BookWithIdDto[]
+    getAllBooks = (): BookEntity[] => {
+        let books: BookEntity[]
         try {
             books = this.libraryRepo.getAllBooks()
         }catch (e){
