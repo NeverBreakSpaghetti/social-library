@@ -46,18 +46,18 @@ describe('Library', () => {
             expect(repoMock.get).toHaveBeenCalled()
         });
 
-        it('should throw an error when book not exists', () => {
-            jest.spyOn(repoMock, 'get').mockImplementation(() => {throw new Error('Book not found')})
+        it('should return null when book not exists', () => {
+            jest.spyOn(repoMock, 'get').mockImplementation(() => null)
             const library = new Library(repoMock);
 
-            expect(()=>library.get('notExistingUuid')).toThrow('Book not found');
+            expect(library.get('notExistingUuid')).toEqual(null)
         });
 
         it('should return a BookEntity when book is found', () => {
             jest.spyOn(repoMock, 'get').mockImplementation(():BookEntity => {return BookEntity.create('uuid', {title: "Il finto libro di Gianni"})})
             const library = new Library(repoMock);
 
-            const book: BookEntity = library.get('uuid');
+            const book = library.get('uuid');
 
             expect(book).toEqual({id: 'uuid', title: "Il finto libro di Gianni"})
         });

@@ -7,10 +7,10 @@ export class InMemoryRepo implements Repo{
         this.bookEntities.push(book)
     }
 
-    get(bookId: string): BookEntity {
+    get(bookId: string): BookEntity | null {
         const bookEntity = this.bookEntities.find(bookEntity => bookEntity['id'] === bookId)
         if(!bookEntity)
-            throw new Error('Book not found')
+            return null
         return bookEntity
     }
 

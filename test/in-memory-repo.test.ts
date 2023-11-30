@@ -26,10 +26,10 @@ describe('InMemoryRepo', () => {
 
             expect(repo.get("uuid")).toEqual({...book, id: "uuid"})
         });
-        it('should return en error when book exists', () => {
+        it('should return null when book exists', () => {
             const repo = new InMemoryRepo()
 
-            expect(()=>repo.get('notExistsThisUuid')).toThrow()
+            expect(repo.get("uuid")).toEqual(null)
         });
     });
 

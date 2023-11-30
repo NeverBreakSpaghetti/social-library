@@ -41,12 +41,10 @@ export const insertBook = (library: Library = getLibrary()) => {
 export const getBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const bookId = req.url.split('books/')[1];
-        try {
-            const book = library.get(bookId) //TODO mapping
-            res.status(200).send(book)
-        }catch (e) {
+        const book = library.get(bookId) //TODO mapping
+        if (!book)
             res.status(404).send()
-        }
+        res.status(200).send(book)
     };
 }
 

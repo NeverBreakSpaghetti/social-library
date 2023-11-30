@@ -11,13 +11,10 @@ export default class Library {
         this.libraryRepo.save(bookEntity);
     }
 
-    get(bookId: string): BookEntity {
-        let book: BookEntity
-        try {
-            book = this.libraryRepo.get(bookId);
-        }catch (e){
-            throw new Error('Book not found')
-        }
+    get(bookId: string): BookEntity | null {
+        const book = this.libraryRepo.get(bookId);
+        if (!book)
+            return null
         return book
     }
 
