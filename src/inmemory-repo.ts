@@ -15,9 +15,6 @@ export class InMemoryRepo implements Repo{
     }
 
     getAllBooks(): BookEntity[] {
-        if(this.bookEntities.length === 0) {
-            throw new Error('Catalogue is empty')
-        }
         return Array.from(this.bookEntities)
     }
 

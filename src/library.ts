@@ -19,13 +19,7 @@ export default class Library {
     }
 
     getAllBooks = (): BookEntity[] => {
-        let books: BookEntity[]
-        try {
-            books = this.libraryRepo.getAllBooks()
-        }catch (e){
-            throw new Error('Empty catalogue')
-        }
-        return books
+        return this.libraryRepo.getAllBooks()
     }
 
     generateId(): string {

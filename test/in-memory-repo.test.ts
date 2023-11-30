@@ -37,7 +37,7 @@ describe('InMemoryRepo', () => {
         it('should return an empty array when no books', () => {
             const repo = new InMemoryRepo()
 
-            expect(()=> repo.getAllBooks()).toThrow('Catalogue is empty')
+            expect(repo.getAllBooks()).toEqual([])
         });
         it('should return all books', () => {
             const repo = new InMemoryRepo()

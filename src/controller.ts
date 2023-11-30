@@ -50,11 +50,9 @@ export const getBook = (library: Library = getLibrary()) => {
 
 export const getAllBooks = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
-        try {
-            const books = library.getAllBooks();
-            res.status(200).send(books)
-        } catch (e) {
+        const books = library.getAllBooks();
+        if (books.length === 0)
             res.status(404).send()
-        }
+        res.status(200).send(books)
     }
 };
