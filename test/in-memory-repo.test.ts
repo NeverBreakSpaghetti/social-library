@@ -1,5 +1,5 @@
 import {InMemoryRepo} from "../src/inmemory-repo";
-import {Book} from "../src/bookDto";
+import {BookDto} from "../src/bookDto";
 import {BookEntity} from "../src/book-entity";
 
 describe('InMemoryRepo', () => {
@@ -7,7 +7,7 @@ describe('InMemoryRepo', () => {
     describe('save', () => {
         it('should save a book', () => { // stesso test sotto => posso unire i due test
             const repo = new InMemoryRepo()
-            const book: Book = {title: 'Le memorie di uno Scrum Master'}
+            const book: BookDto = {title: 'Le memorie di uno Scrum Master'}
             const id = "uuid"
 
             repo.save(BookEntity.create(id, book))
@@ -41,9 +41,9 @@ describe('InMemoryRepo', () => {
         });
         it('should return all books', () => {
             const repo = new InMemoryRepo()
-            const firstBook: Book = {title: 'I mille workshop di Gianni', pages: 1000}
+            const firstBook: BookDto = {title: 'I mille workshop di Gianni', pages: 1000}
             const firstId = 'uuid1'
-            const secondBook: Book = {title: 'I consigli di un navigato mentor', author: 'Gianni'}
+            const secondBook: BookDto = {title: 'I consigli di un navigato mentor', author: 'Gianni'}
             const secondId = 'uuid2'
 
             repo.save(BookEntity.create(firstId, firstBook))

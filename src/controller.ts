@@ -1,15 +1,15 @@
 import Library from "./library";
 import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
-import {Book, isValidBook} from "./book";
+import {BookDto, isValid} from "./bookDto";
 
 const repo = new InMemoryRepo();
 export const getLibrary = () => {
     return new Library(repo);
 };
 
-export const mapRequestBodyToBook = (body: any): Book => {
-    if(!isValidBook(body))
+export const mapRequestBodyToBook = (body: any): BookDto => {
+    if(!isValid(body))
         throw new Error('Book not valid')
     return {title: body.title, author: body.author, pages: body.pages}
 };
@@ -18,7 +18,7 @@ export const insertBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const id = library.generateId();
         try { //TODO: remove try catch
-            const book: Book = mapRequestBodyToBook(req.body)
+            const book: BookDto = mapRequestBodyToBook(req.body)
             library.add(id, book)
         }catch (e){
             if(e instanceof Error) {

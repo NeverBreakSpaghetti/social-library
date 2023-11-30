@@ -1,4 +1,4 @@
-import {Book} from "./book";
+import {BookDto} from "./bookDto";
 
 export class BookEntity {
     private constructor(private readonly id: string, private title: string, private author?: string, private pages?: number) {

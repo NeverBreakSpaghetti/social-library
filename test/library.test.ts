@@ -1,6 +1,6 @@
 import Library from "../src/library";
 import {Repo} from "../src/repo";
-import {Book} from "../src/book";
+import {BookDto} from "../src/bookDto";
 import {BookEntity} from "../src/book-entity";
 
 let repoMock: Repo
@@ -20,7 +20,7 @@ describe('Library', () => {
     describe('add', () => {
         it('should accept a book and an id as input', () => {
             const library = new Library(repoMock);
-            const book: Book = {title: "Le avventure di Gianni in montagna" }
+            const book: BookDto = {title: "Le avventure di Gianni in montagna" }
             const id = "uuid"
 
             expect(()=>library.add(id, book)).not.toThrow();
@@ -28,7 +28,7 @@ describe('Library', () => {
 
         it('should save the book', () => {
             const library = new Library(repoMock);
-            const book: Book = {title: "Le avventure di Gianni in montagna" }
+            const book: BookDto = {title: "Le avventure di Gianni in montagna" }
             const id = "uuid"
 
             library.add(id, book);
