@@ -18,6 +18,7 @@ export const insertBook = (library: Library = getLibrary()) => {
             res.status(400).json({message: "Book not valid"});
             return;
         }
+
         const id = library.generateId();
         const book: BookDto = mapRequestBodyToBookDto(req.body)
         library.add(id, book)
@@ -28,7 +29,6 @@ export const insertBook = (library: Library = getLibrary()) => {
             return
         }
         const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
-
         const location = `/books/${id}`
         res.status(201)
             .setHeader('location',location)
@@ -38,7 +38,7 @@ export const insertBook = (library: Library = getLibrary()) => {
 
 export const getBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
-        const bookId = req.url.split('books/')[1];
+        const bookId = req.params.id;
         const book = library.get(bookId);
         if (!book){
             res.status(404).send()

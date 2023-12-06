@@ -12,10 +12,7 @@ export default class Library {
     }
 
     get(bookId: string): BookEntity | null {
-        const book = this.libraryRepo.get(bookId);
-        if (!book)
-            return null
-        return book
+        return this.libraryRepo.get(bookId);
     }
 
     getAllBooks = (): BookEntity[] => {
