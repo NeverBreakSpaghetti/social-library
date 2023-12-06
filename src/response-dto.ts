@@ -15,3 +15,7 @@ export const mapBookToResponseBookDto = (book: BookEntity) : ResponseBookDto => 
         pages: book['pages']
     }
 }
+
+export const mapBookArrayToResponseBookDtoArray = (books: BookEntity[]) : ResponseBookDto[] => {
+    return books.map(book => mapBookToResponseBookDto(book))
+}

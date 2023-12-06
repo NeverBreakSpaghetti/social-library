@@ -2,7 +2,7 @@ import Library from "./library";
 import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
 import {BookDto, isValid} from "./bookDto";
-import {mapBookToResponseBookDto, ResponseBookDto} from "./response-dto";
+import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto, ResponseBookDto} from "./response-dto";
 
 const repo = new InMemoryRepo();
 export const getLibrary = () => {
@@ -61,6 +61,6 @@ export const getAllBooks = (library: Library = getLibrary()) => {
             res.status(404).send()
             return
         }
-        res.status(200).send(books)
+        res.status(200).send(mapBookArrayToResponseBookDtoArray(books))
     }
 };
