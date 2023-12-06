@@ -75,26 +75,26 @@ describe('mapRequestBodyToBook', () => {
     it('should map a body with title', () => {
         const body = {title: 'Gianni Dungeon Master'}
 
-        expect(controller.mapRequestBodyToBook(body)).toEqual({title: 'Gianni Dungeon Master'})
+        expect(controller.mapRequestBodyToBookDto(body)).toEqual({title: 'Gianni Dungeon Master'})
     });
     it('should map a body with all book fields', () => {
         const body = {title: 'Gianni\'s evaluation of Klingon war tactics', author: 'Gianni', pages: 6000}
 
-        expect(controller.mapRequestBodyToBook(body)).toEqual({title: 'Gianni\'s evaluation of Klingon war tactics', author: 'Gianni', pages: 6000})
+        expect(controller.mapRequestBodyToBookDto(body)).toEqual({title: 'Gianni\'s evaluation of Klingon war tactics', author: 'Gianni', pages: 6000})
     });
     it('should throw an error when is empty body', () => {
         const body = {}
 
-        expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
+        expect(()=>controller.mapRequestBodyToBookDto(body)).toThrow('Book not valid')
     });
     it('should throw an error when is not correctly formatted body', () => {
         const body = {title: 'Gianni\'s space driving school. Theory and practice', fieldNotValid: 'not valid'}
 
-        expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
+        expect(()=>controller.mapRequestBodyToBookDto(body)).toThrow('Book not valid')
     });
     it('should throw an error when title is empty', () => {
         const body = {title: '', author: 'Giulia', pages: 43}
 
-        expect(()=>controller.mapRequestBodyToBook(body)).toThrow('Book not valid')
+        expect(()=>controller.mapRequestBodyToBookDto(body)).toThrow('Book not valid')
     });
 });

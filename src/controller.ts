@@ -2,23 +2,23 @@ import Library from "./library";
 import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
 import {BookDto, isValid} from "./bookDto";
+import {mapBookToResponseBookDto, ResponseBookDto} from "./response-dto";
 
 const repo = new InMemoryRepo();
 export const getLibrary = () => {
     return new Library(repo);
 };
 
-export const mapRequestBodyToBook = (body: any): BookDto => {
-    if(!isValid(body))
+export const mapRequestBodyToBookDto = (object: any): BookDto => {
+    if(!isValid(object))
         throw new Error('Book not valid')
-    return {title: body.title, author: body.author, pages: body.pages}
+    return {title: object.title, author: object.author, pages: object.pages}
 };
-
 export const insertBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const id = library.generateId();
         try { //TODO: remove try catch
-            const book: BookDto = mapRequestBodyToBook(req.body)
+            const book: BookDto = mapRequestBodyToBookDto(req.body)
             library.add(id, book)
         }catch (e){
             if(e instanceof Error) {
@@ -27,10 +27,14 @@ export const insertBook = (library: Library = getLibrary()) => {
                 return;
             }
         }
-        const responseBody = { //TODO: extract responseBookDto
-            id: id,
-            title: req.body.title // cosi non gli sto veramente restituendo l'oggetto creato
+
+        const bookEntity = library.get(id)
+        if (!bookEntity) {
+            res.status(500).send()
+            return
         }
+        const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
+
         const location = `/books/${id}`
         res.status(201)
             .setHeader('location',location)
@@ -42,17 +46,21 @@ export const getBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const bookId = req.url.split('books/')[1];
         const book = library.get(bookId) //TODO mapping
-        if (!book)
+        if (!book){
             res.status(404).send()
-        res.status(200).send(book)
+            return
+        }
+        res.status(200).send(mapBookToResponseBookDto(book))
     };
 }
 
 export const getAllBooks = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const books = library.getAllBooks();
-        if (books.length === 0)
+        if (books.length === 0) {
             res.status(404).send()
+            return
+        }
         res.status(200).send(books)
     }
 };
