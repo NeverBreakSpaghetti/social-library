@@ -10,23 +10,17 @@ export const getLibrary = () => {
 };
 
 export const mapRequestBodyToBookDto = (object: any): BookDto => {
-    if(!isValid(object))
-        throw new Error('Book not valid')
     return {title: object.title, author: object.author, pages: object.pages}
 };
 export const insertBook = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
-        const id = library.generateId();
-        try { //TODO: remove try catch
-            const book: BookDto = mapRequestBodyToBookDto(req.body)
-            library.add(id, book)
-        }catch (e){
-            if(e instanceof Error) {
-                const errorMessages = e.message;
-                res.status(400).json({message: errorMessages});
-                return;
-            }
+        if (!isValid(req.body)) {
+            res.status(400).json({message: "Book not valid"});
+            return;
         }
+        const id = library.generateId();
+        const book: BookDto = mapRequestBodyToBookDto(req.body)
+        library.add(id, book)
 
         const bookEntity = library.get(id)
         if (!bookEntity) {
