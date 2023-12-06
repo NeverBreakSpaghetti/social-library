@@ -52,7 +52,7 @@ export const getAllBooks = (library: Library = getLibrary()) => {
     return (req: Request, res: Response) => {
         const books = library.getAllBooks();
         if (books.length === 0) {
-            res.status(404).send()
+            res.status(200).send([])
             return
         }
         res.status(200).send(mapBookArrayToResponseBookDtoArray(books))

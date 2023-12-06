@@ -55,7 +55,8 @@ describe('GET /books', () => {
     it.skip('should return a response with status 404 when catalogue is empty', async () => {
         const response = await request(app).get(`/books`)
 
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual([]);
     });
     it('should return a response with status 200 when the book is in catalogue', async () => {
         const newBook = {
