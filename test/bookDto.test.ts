@@ -3,9 +3,9 @@ import {isValid} from "../src/bookDto";
 describe('bookDto', () => {
     describe('isValid', () => {
         it('should return false when its empty', () => {
-            const book = {title: 'Gianni\'s knowledge pills', author: 'Gianni'}
+            const emptyBook = {}
 
-            expect(isValid(book)).toBeTruthy()
+            expect(isValid(emptyBook)).toBeFalsy()
         });
         it('should return true when it contains only a title', () => {
             const book = {title: 'Gianni\'s knowledge pills'}
