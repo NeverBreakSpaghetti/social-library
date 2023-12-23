@@ -1,5 +1,6 @@
 import {UserDto} from "./user-dto";
 import {hash} from "../utils/crypto-utils";
+import {UserRepo} from "./user-repo";
 
 export class UserEntity {
     private constructor(private readonly user: string, private readonly password: string) {}
@@ -7,10 +8,6 @@ export class UserEntity {
     static create(user: string, password: string): UserEntity {
         return new UserEntity(user, password)
     }
-}
-
-export interface UserRepo {
-    save(user: UserEntity): void;
 }
 
 export default class UserService {

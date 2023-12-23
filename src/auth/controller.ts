@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {isValid} from "./user-dto";
-import UserService, {UserEntity, UserRepo} from "./user-service";
+import UserService, {UserEntity} from "./user-service";
+import {UserRepo} from "./user-repo";
 
 const repo = new class implements UserRepo {
     save(user: UserEntity): void {}

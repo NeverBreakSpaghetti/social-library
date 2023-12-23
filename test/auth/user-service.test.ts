@@ -1,7 +1,8 @@
 import {UserDto} from "../../src/auth/user-dto";
 import UserService from "../../src/auth/user-service";
 import * as CryptoUtils from "../../src/utils/crypto-utils";
-import {UserRepo} from "../../src/auth/user-service";
+
+import {UserRepo} from "../../src/auth/user-repo";
 describe('UserService', () => {
     let repoMock: UserRepo
     beforeAll(() => {
