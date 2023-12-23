@@ -1,7 +1,7 @@
 import Library from "./library";
 import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
-import {BookDto, isValid} from "./bookDto";
+import {BookDto, isValid} from "./book-dto";
 import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto, ResponseBookDto} from "./response-dto";
 
 const repo = new InMemoryRepo();

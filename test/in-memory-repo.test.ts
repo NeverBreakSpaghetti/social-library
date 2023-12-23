@@ -1,5 +1,5 @@
 import {InMemoryRepo} from "../src/inmemory-repo";
-import {BookDto} from "../src/bookDto";
+import {BookDto} from "../src/book-dto";
 import {BookEntity} from "../src/book-entity";
 
 describe('InMemoryRepo', () => {

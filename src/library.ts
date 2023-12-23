@@ -1,6 +1,6 @@
 import {Repo} from "./repo";
 import {v4 as uuid} from 'uuid';
-import {BookDto} from "./bookDto";
+import {BookDto} from "./book-dto";
 import {BookEntity} from "./book-entity";
 
 export default class Library {

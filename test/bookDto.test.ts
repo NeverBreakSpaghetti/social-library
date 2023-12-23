@@ -1,4 +1,4 @@
-import {isValid} from "../src/bookDto";
+import {isValid} from "../src/book-dto";
 
 describe('bookDto', () => {
     describe('isValid', () => {
