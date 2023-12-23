@@ -1,4 +1,4 @@
-import Library from "../../src/book/library";
+import LibraryService from "../../src/book/library-service";
 import {Repo} from "../../src/book/repo";
 import {BookDto} from "../../src/book/book-dto";
 import {BookEntity} from "../../src/book/book-entity";
@@ -19,7 +19,7 @@ describe('Library', () => {
 
     describe('add', () => {
         it('should accept a book and an id as input', () => {
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
             const book: BookDto = {title: "Le avventure di Gianni in montagna" }
             const id = "uuid"
 
@@ -27,7 +27,7 @@ describe('Library', () => {
         });
 
         it('should save the book', () => {
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
             const book: BookDto = {title: "Le avventure di Gianni in montagna" }
             const id = "uuid"
 
@@ -39,7 +39,7 @@ describe('Library', () => {
 
     describe('get', () => {
         it('should search the book', () => {
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             library.get('uuid');
 
@@ -48,14 +48,14 @@ describe('Library', () => {
 
         it('should return null when book not exists', () => {
             jest.spyOn(repoMock, 'get').mockImplementation(() => null)
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             expect(library.get('notExistingUuid')).toEqual(null)
         });
 
         it('should return a BookEntity when book is found', () => {
             jest.spyOn(repoMock, 'get').mockImplementation(():BookEntity => {return BookEntity.create('uuid', {title: "Il finto libro di Gianni"})})
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             const book = library.get('uuid');
 
@@ -65,7 +65,7 @@ describe('Library', () => {
 
     describe('getAllBooks', () => {
         it('should search all books', () => {
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             library.getAllBooks();
 
@@ -73,7 +73,7 @@ describe('Library', () => {
         });
         it('should throw an error when catalogue is empty', () => {
             jest.spyOn(repoMock, 'getAllBooks').mockImplementation(() => {throw new Error('Empty catalogue')})
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             expect(()=>library.getAllBooks()).toThrow('Empty catalogue');
         });
@@ -84,7 +84,7 @@ describe('Library', () => {
                     BookEntity.create('uuid2', {title: "Gianni's guide to best north Italy pubs", author: "Gianni"}),
                 ]
             })
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             const books = library.getAllBooks();
 
@@ -96,12 +96,12 @@ describe('Library', () => {
 
     describe('generateId', () => {
         it('should generate a new uuid', () => {
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             expect(library.generateId()).toEqual(expect.any(String));
         });
         it('should generate different uuids', () => {
-            const library = new Library(repoMock);
+            const library = new LibraryService(repoMock);
 
             expect(library.generateId()).not.toEqual(library.generateId());
         });

@@ -1,4 +1,4 @@
-import Library from "./library";
+import LibraryService from "./library-service";
 import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
 import {BookDto, isValid} from "./book-dto";
@@ -6,13 +6,13 @@ import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto, ResponseBo
 
 const repo = new InMemoryRepo();
 export const getLibrary = () => {
-    return new Library(repo);
+    return new LibraryService(repo);
 };
 
 export const mapRequestBodyToBookDto = (object: any): BookDto => {
     return {title: object.title, author: object.author, pages: object.pages}
 };
-export const insertBook = (library: Library = getLibrary()) => {
+export const insertBook = (library: LibraryService = getLibrary()) => {
     return (req: Request, res: Response) => {
         if (!isValid(req.body)) {
             res.status(400).json({message: "Book not valid"});
@@ -36,7 +36,7 @@ export const insertBook = (library: Library = getLibrary()) => {
     };
 }
 
-export const getBook = (library: Library = getLibrary()) => {
+export const getBook = (library: LibraryService = getLibrary()) => {
     return (req: Request, res: Response) => {
         const bookId = req.params.id;
         const book = library.get(bookId);
@@ -48,7 +48,7 @@ export const getBook = (library: Library = getLibrary()) => {
     };
 }
 
-export const getAllBooks = (library: Library = getLibrary()) => {
+export const getAllBooks = (library: LibraryService = getLibrary()) => {
     return (req: Request, res: Response) => {
         const books = library.getAllBooks();
         if (books.length === 0) {

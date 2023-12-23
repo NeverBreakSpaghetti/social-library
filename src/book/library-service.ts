@@ -3,7 +3,7 @@ import {v4 as uuid} from 'uuid';
 import {BookDto} from "./book-dto";
 import {BookEntity} from "./book-entity";
 
-export default class Library {
+export default class LibraryService {
     constructor(private readonly libraryRepo: Repo) {}
 
     public add(id: string, book: BookDto): void {
