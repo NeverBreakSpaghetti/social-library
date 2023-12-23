@@ -1,5 +1,5 @@
-import {BookEntity} from "../src/book-entity";
-import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto} from "../src/response-dto";
+import {BookEntity} from "../src/book/book-entity";
+import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto} from "../src/book/response-dto";
 
 describe('ResponseBookDto', () => {
     describe('mapBookToResponseBookDto', () => {

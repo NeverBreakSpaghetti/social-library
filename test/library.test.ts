@@ -1,7 +1,7 @@
-import Library from "../src/library";
-import {Repo} from "../src/repo";
-import {BookDto} from "../src/book-dto";
-import {BookEntity} from "../src/book-entity";
+import Library from "../src/book/library";
+import {Repo} from "../src/book/repo";
+import {BookDto} from "../src/book/book-dto";
+import {BookEntity} from "../src/book/book-entity";
 
 let repoMock: Repo
 describe('Library', () => {

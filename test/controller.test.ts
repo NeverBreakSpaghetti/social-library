@@ -1,6 +1,6 @@
 import request from 'supertest';
 //import app from "../src/app";
-import * as controller from "../src/controller";
+import * as controller from "../src/book/controller";
 
 const app = "http://localhost:3001";
 describe('POST /books', () => {
