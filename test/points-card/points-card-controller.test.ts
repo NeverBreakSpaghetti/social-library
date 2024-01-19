@@ -28,5 +28,14 @@ describe('Points Card controller tests', () => {
             expect(CardService.prototype.add).toHaveBeenCalled()
             expect(response.statusCode).toBe(201)
         });
+
+        it('should return a response with status 400 when try to add something else', async () => {
+            request.body = {test: "this is not a username"};
+
+            PointsCard.emitCard(request, response)
+
+            expect(response.statusCode).toBe(400);
+            expect(response._getJSONData()).toHaveProperty('message', 'user not valid')
+        });
     });
 });
