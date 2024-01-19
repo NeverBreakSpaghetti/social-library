@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import UserService from "../../src/auth/user-service";
 import {hash} from "../../src/utils/crypto-utils";
 
 describe('CryptoUtils', () => {
