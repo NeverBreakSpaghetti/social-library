@@ -5,7 +5,7 @@ import * as PointsCard from "../../src/points-card/points-card-controller";
 import {CardService} from "../../src/points-card/card-service";
 
 jest.mock('../../src/points-card/card-service');
-
+const realCardServicePrototype = CardService.prototype
 describe('Points Card controller tests', () => {
     let request: MockRequest<Request>
     let response: MockResponse<Response>
@@ -15,12 +15,19 @@ describe('Points Card controller tests', () => {
     })
 
     describe('POST /cards', () => {
+
         beforeEach(() => {
             request.method = 'POST'
             request.url = '/cards'
         })
 
+        afterEach(() => {
+            jest.clearAllMocks()
+            CardService.prototype = realCardServicePrototype
+        });
+
         it('should return a response with status 201 when new card is add to catalogue', async () => {
+            CardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniBarbaMenoLunga'})
             request.body = {name: 'GianniBarbaMenoLunga'}
 
             PointsCard.emitCard(request, response)
@@ -36,6 +43,16 @@ describe('Points Card controller tests', () => {
 
             expect(response.statusCode).toBe(400);
             expect(response._getJSONData()).toHaveProperty('message', 'user not valid')
+        });
+
+        it('should return the points card data when created', () => {
+            CardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniExBarbaLunga'})
+            request.body = {name: 'GianniExBarbaLunga'}
+
+            PointsCard.emitCard(request, response)
+
+            expect(response._getJSONData()).toHaveProperty('id', '1234')
+            expect(response._getJSONData()).toHaveProperty('name', 'GianniExBarbaLunga')
         });
     });
 });
