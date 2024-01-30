@@ -1,11 +1,22 @@
 import {PointsCardEntity} from "./points-card-entity";
+import {v4 as uuid} from 'uuid';
+
+export abstract class PointsCardRepo {
+    abstract get(id: string): PointsCardEntity | null
+
+    abstract save(pointsCard: PointsCardEntity): void
+}
 
 export class PointsCardService {
-    generateId() {
-        return '0'
+    constructor(private readonly repo: PointsCardRepo) {
+
     }
 
-    add(id: string, name: string) {
+    generateId(): string {
+        return uuid()
+    }
+
+    add(id: string, name: string): void {
         throw new Error('Method not implemented.')
     }
 

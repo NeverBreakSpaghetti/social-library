@@ -9,7 +9,10 @@ export const emitCard = (req: Request, res: Response) => {
         return
     }
 
-    const cardService = new PointsCardService()
+    const cardService = new PointsCardService({ //FIXME: use a real repo when available
+        get: jest.fn(),
+        save: jest.fn()
+    })
 
     const pointsCardDto = mapToPointsCardDto(req.body)
     const id = cardService.generateId()
