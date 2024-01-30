@@ -1,10 +1,6 @@
 import {Request, Response} from "express";
 import {PointsCardService} from "./points-card-service";
-
-const isValid = (body: any) => {
-    const keys = Object.keys(body)
-    return keys.length === 1 && keys.includes('name') && body.name !== ''
-}
+import {isValid, mapToPointsCardDto} from "./points-card-dto";
 
 export class PointsCardEntity {
     constructor(private readonly id: string, private name: string) {
@@ -27,8 +23,9 @@ export const emitCard = (req: Request, res: Response) => {
 
     const cardService = new PointsCardService()
 
+    const pointsCardDto = mapToPointsCardDto(req.body)
     const id = cardService.generateId()
-    cardService.add(id, req.body.name)
+    cardService.add(id, pointsCardDto.name)
 
     const pointsCard = cardService.get(id)
     if (!pointsCard){
