@@ -1,5 +1,6 @@
 import {PointsCardEntity} from "./points-card-entity";
 import {v4 as uuid} from 'uuid';
+import {PointsCardDto} from "./points-card-dto";
 
 export abstract class PointsCardRepo {
     abstract get(id: string): PointsCardEntity | null
@@ -16,8 +17,8 @@ export class PointsCardService {
         return uuid()
     }
 
-    add(id: string, name: string): void {
-        throw new Error('Method not implemented.')
+    add(id: string, pointsCardDto: PointsCardDto): void {
+        this.repo.save(PointsCardEntity.create(id, pointsCardDto))
     }
 
     get(id: string): PointsCardEntity {

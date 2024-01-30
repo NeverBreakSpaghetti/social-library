@@ -23,4 +23,15 @@ describe('points card service', () => {
             expect(pointsCardService.generateId()).not.toEqual(pointsCardService.generateId());
         });
     });
+
+    describe('add', () => {
+        it('should add the points card to the repo', () => {
+            const pointsCardService = new PointsCardService(repoMock);
+            const pointsCardDto = {name: 'GianniThePointsMaximiser'}
+
+            pointsCardService.add('uuid', pointsCardDto);
+
+            expect(repoMock.save).toHaveBeenCalledWith({id: 'uuid', name: 'GianniThePointsMaximiser'})
+        });
+    });
 });

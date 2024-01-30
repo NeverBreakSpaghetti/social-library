@@ -16,7 +16,7 @@ export const emitCard = (req: Request, res: Response) => {
 
     const pointsCardDto = mapToPointsCardDto(req.body)
     const id = cardService.generateId()
-    cardService.add(id, pointsCardDto.name)
+    cardService.add(id, pointsCardDto)
 
     const pointsCard = cardService.get(id)
     if (!pointsCard){
