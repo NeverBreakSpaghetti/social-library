@@ -26,12 +26,23 @@ describe('in memory points card repo', () => {
     });
 
     describe('save', () => {
-            it('should save the points card', () => {
+        it('should save the points card', () => {
             const pointsCard = PointsCardEntity.create('uuid', {name: 'GianniThePointsMaximiser'})
 
             pointsCardRepo.save(pointsCard)
 
             expect(pointsCardRepo['pointsCards']).toEqual([pointsCard])
         })
+
+        it('should replace a points card when the card id already exists', () => {
+            const pointsCardEntity = PointsCardEntity.create('same-uuid', {name: 'GianniThePointsMaximiser'})
+            pointsCardRepo.save(pointsCardEntity)
+
+            const pointsCardEntityEdited = PointsCardEntity.create('same-uuid', {name: 'GianniHaveAnEditedCard'})
+            pointsCardRepo.save(pointsCardEntityEdited)
+
+            expect(pointsCardRepo['pointsCards'].length).toEqual(1)
+            expect(pointsCardRepo['pointsCards']).toEqual([pointsCardEntityEdited])
+        });
     })
 });

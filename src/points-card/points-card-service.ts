@@ -24,6 +24,7 @@ export class PointsCardService {
         const pointsCard = this.get(id)
         if (pointsCard !== null) {
             pointsCard.addPoints()
+            this.repo.save(pointsCard)
         }
     }
 }

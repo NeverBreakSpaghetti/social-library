@@ -83,5 +83,14 @@ describe('points card service', () => {
             expect(repoMock.get).toHaveBeenCalledWith('uuid')
             expect(PointsCardEntity.prototype.addPoints).not.toHaveBeenCalled()
         });
+
+        it('should update the repo when points are added', () => {
+            const pointsCardEntity = new PointsCardEntity('uuid', 'GianniThePointsMaximiser')
+            repoMock.get = jest.fn().mockReturnValue(pointsCardEntity)
+
+            pointsCardService.addPoints('uuid');
+
+            expect(repoMock.save).toHaveBeenCalledWith(pointsCardEntity)
+        });
     });
 });
