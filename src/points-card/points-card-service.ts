@@ -27,4 +27,13 @@ export class PointsCardService {
             this.repo.save(pointsCard)
         }
     }
+
+    subtractPoints(id: string) {
+        const pointsCard = this.get(id)
+        if (pointsCard === null)
+            throw new Error("Points card not found")
+
+        pointsCard.subtractPoints() //should throw error when points insufficient
+        this.repo.save(pointsCard)
+    }
 }

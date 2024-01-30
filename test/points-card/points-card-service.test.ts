@@ -93,4 +93,46 @@ describe('points card service', () => {
             expect(repoMock.save).toHaveBeenCalledWith(pointsCardEntity)
         });
     });
+
+    describe('subtractPoints', () => {
+        it('should subtract points when points card exists with sufficient points', () => {
+            const pointsCardEntity = new PointsCardEntity('uuid', 'GianniThePointsMinimiser')
+            repoMock.get = jest.fn().mockReturnValue(pointsCardEntity)
+            pointsCardService.addPoints('uuid');
+            pointsCardService.addPoints('uuid');
+
+            pointsCardService.subtractPoints('uuid');
+
+            expect(repoMock.get).toHaveBeenCalledTimes(3)
+            expect(PointsCardEntity.prototype.subtractPoints).toHaveBeenCalled()
+        });
+
+        it('should update the repo when points are subtracted', () => {
+            const pointsCardEntity = new PointsCardEntity('uuid', 'GianniThePointsMinimiser')
+            repoMock.get = jest.fn().mockReturnValue(pointsCardEntity)
+            pointsCardService.addPoints('uuid');
+            pointsCardService.addPoints('uuid');
+
+            pointsCardService.subtractPoints('uuid');
+
+            expect(repoMock.save).toHaveBeenCalledTimes(3)
+        });
+
+        it('should throw an error when points are not sufficient and not update repo', () => {
+            PointsCardEntity.prototype.subtractPoints = jest.fn().mockImplementation(() => {throw new Error('Points insufficient')})
+            const pointsCardEntity = new PointsCardEntity('uuid', 'GianniThePointsMinimiser')
+            repoMock.get = jest.fn().mockReturnValue(pointsCardEntity)
+
+            expect(()=> pointsCardService.subtractPoints('uuid')).toThrow('Points insufficient')
+            expect(repoMock.get).toHaveBeenCalledWith('uuid')
+            expect(repoMock.save).not.toHaveBeenCalled()
+        });
+
+        it('should throw an error when points card not exists', () => {
+            repoMock.get = jest.fn().mockReturnValue(null)
+
+            expect(()=> pointsCardService.subtractPoints('uuid')).toThrow('Points card not found')
+            expect(repoMock.get).toHaveBeenCalledWith('uuid')
+        });
+    });
 });
