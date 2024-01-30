@@ -4,7 +4,7 @@ import {MockRequest, MockResponse} from "node-mocks-http";
 import * as PointsCard from "../../src/points-card/points-card-controller";
 import {PointsCardService} from "../../src/points-card/points-card-service";
 
-jest.mock('../../src/points-card/card-service');
+jest.mock('../../src/points-card/points-card-service');
 const realCardServicePrototype = PointsCardService.prototype
 describe('Points Card controller tests', () => {
     let request: MockRequest<Request>
