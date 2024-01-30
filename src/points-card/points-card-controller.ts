@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {CardService} from "./card-service";
+import {PointsCardService} from "./points-card-service";
 
 const isValid = (body: any) => {
     const keys = Object.keys(body)
@@ -25,7 +25,7 @@ export const emitCard = (req: Request, res: Response) => {
         return
     }
 
-    const cardService = new CardService()
+    const cardService = new PointsCardService()
 
     const id = cardService.generateId()
     cardService.add(id, req.body.name)

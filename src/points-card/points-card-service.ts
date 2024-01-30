@@ -1,6 +1,6 @@
 import {PointsCardEntity} from "./points-card-controller";
 
-export class CardService {
+export class PointsCardService {
     generateId() {
         return '0'
     }
