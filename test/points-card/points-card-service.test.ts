@@ -1,4 +1,5 @@
-import {PointsCardRepo, PointsCardService} from "../../src/points-card/points-card-service";
+import {PointsCardService} from "../../src/points-card/points-card-service";
+import {PointsCardRepo} from "../../src/points-card/points-card-repo";
 
 describe('points card service', () => {
     let repoMock: PointsCardRepo

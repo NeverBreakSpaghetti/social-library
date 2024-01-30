@@ -1,12 +1,7 @@
 import {PointsCardEntity} from "./points-card-entity";
 import {v4 as uuid} from 'uuid';
 import {PointsCardDto} from "./points-card-dto";
-
-export abstract class PointsCardRepo {
-    abstract get(id: string): PointsCardEntity | null
-
-    abstract save(pointsCard: PointsCardEntity): void
-}
+import {PointsCardRepo} from "./points-card-repo";
 
 export class PointsCardService {
     constructor(private readonly repo: PointsCardRepo) {
