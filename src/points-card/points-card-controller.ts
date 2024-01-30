@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import {PointsCardService} from "./points-card-service";
 import {isValid, mapToPointsCardDto} from "./points-card-dto";
 import {mapPointsCardToResponsePointsCardDto, ResponsePointsCardDto} from "./response-points-card-dto";
+import {InMemoryPointsCardRepo} from "./inmemory-points-card-repo";
 
 export const emitCard = (req: Request, res: Response) => {
     if (!isValid(req.body)){
@@ -9,10 +10,7 @@ export const emitCard = (req: Request, res: Response) => {
         return
     }
 
-    const cardService = new PointsCardService({ //FIXME: use a real repo when available
-        get: jest.fn(),
-        save: jest.fn()
-    })
+    const cardService = new PointsCardService(new InMemoryPointsCardRepo())
 
     const pointsCardDto = mapToPointsCardDto(req.body)
     const id = cardService.generateId()
@@ -25,5 +23,6 @@ export const emitCard = (req: Request, res: Response) => {
     }
 
     const responseBody: ResponsePointsCardDto = mapPointsCardToResponsePointsCardDto(pointsCard)
+    res.setHeader('location', `/cards/${id}`)
     res.status(201).json(responseBody)
 }

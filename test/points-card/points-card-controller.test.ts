@@ -26,7 +26,8 @@ describe('Points Card controller tests', () => {
             PointsCardService.prototype = realCardServicePrototype
         });
 
-        it('should return a response with status 201 when new card is add to catalogue', async () => {
+        it('should return a response with status 201 and the location header when new card is add to catalogue', async () => {
+            PointsCardService.prototype.generateId = jest.fn().mockReturnValue('1234')
             PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniBarbaMenoLunga'})
             request.body = {name: 'GianniBarbaMenoLunga'}
 
@@ -34,6 +35,7 @@ describe('Points Card controller tests', () => {
 
             expect(PointsCardService.prototype.add).toHaveBeenCalled()
             expect(response.statusCode).toBe(201)
+            expect(response._getHeaders()).toHaveProperty('location', '/cards/1234')
         });
 
         it('should return a response with status 400 when try to add something else', async () => {

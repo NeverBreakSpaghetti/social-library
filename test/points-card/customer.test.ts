@@ -2,7 +2,7 @@ import request from "supertest";
 
 const appUrl = 'http://localhost:3001';
 
-describe.skip('Points Card customer tests', () => {
+describe('Points Card customer tests', () => {
     describe('Given a new user', () => {
         const newUser = { name: "GianniBarbaMenoLunga" }
         describe('when request a new points card', () => {
@@ -11,7 +11,7 @@ describe.skip('Points Card customer tests', () => {
                 expect(response.statusCode).toBe(201);
                 expect(response.body).toHaveProperty('id');
                 expect(response.body.name).toBe(newUser.name)
-                expect(response.header).toHaveProperty('location')
+                expect(response.header).toHaveProperty('location', expect.any(String));
             });
         });
     });
