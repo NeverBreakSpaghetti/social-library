@@ -31,6 +31,10 @@ export const emitCard = (req: Request, res: Response) => {
     cardService.add(id, req.body.name)
 
     const pointsCard = cardService.get(id)
+    if (!pointsCard){
+        res.status(500).json({message: "points card not added"})
+        return
+    }
 
     const responseBody: ResponsePointsCardDto = mapPointsCardToResponsePointsCardDto(pointsCard)
     res.status(201).json(responseBody)

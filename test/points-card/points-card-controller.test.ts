@@ -54,5 +54,16 @@ describe('Points Card controller tests', () => {
             expect(response._getJSONData()).toHaveProperty('id', '1234')
             expect(response._getJSONData()).toHaveProperty('name', 'GianniExBarbaLunga')
         });
+
+        it('should return a response with status 500 when the added points card is not present', () => {
+            CardService.prototype.get = jest.fn().mockReturnValue(undefined)
+            request.body = {name: 'TheDDDMaster'}
+
+            PointsCard.emitCard(request, response)
+
+            expect(CardService.prototype.add).toHaveBeenCalled()
+            expect(response.statusCode).toBe(500)
+            expect(response._getJSONData()).toHaveProperty('message', 'points card not added')
+        });
     });
 });
