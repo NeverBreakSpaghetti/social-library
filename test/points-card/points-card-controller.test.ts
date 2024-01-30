@@ -41,6 +41,7 @@ describe('Points Card controller tests', () => {
 
             PointsCard.emitCard(request, response)
 
+            expect(CardService.prototype.add).not.toHaveBeenCalled()
             expect(response.statusCode).toBe(400);
             expect(response._getJSONData()).toHaveProperty('message', 'user not valid')
         });
