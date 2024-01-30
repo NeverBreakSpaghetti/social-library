@@ -1,24 +1,5 @@
 import {PointsCardDto} from "./points-card-dto";
-
-export abstract class AssociateRole {
-    abstract getTitle(): string;
-    abstract getIncreasingPoints(): number;
-    abstract getDecreasingPoints(): number;
-}
-
-class NewComerRole extends AssociateRole {
-    getTitle(): string {
-        return "New comer"
-    }
-
-    getIncreasingPoints(): number {
-        return 1
-    }
-
-    getDecreasingPoints(): number {
-        return 2;
-    }
-}
+import {AssociateRole, NewComerRole} from "./associate-role";
 
 export class PointsCardEntity {
     private points: number = 0;
