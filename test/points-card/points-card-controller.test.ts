@@ -57,7 +57,7 @@ describe('Points Card controller tests', () => {
         });
 
         it('should return a response with status 500 when the added points card is not present', () => {
-            PointsCardService.prototype.get = jest.fn().mockReturnValue(undefined)
+            PointsCardService.prototype.get = jest.fn().mockReturnValue(null)
             request.body = {name: 'TheDDDMaster'}
 
             PointsCard.emitCard(request, response)

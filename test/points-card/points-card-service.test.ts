@@ -10,6 +10,10 @@ describe('points card service', () => {
         }
     })
 
+    afterEach(() => {
+      jest.resetAllMocks();
+    })
+
     describe('generateId', () => {
         it('should generate a new uuid', () => {
             const pointsCardService = new PointsCardService(repoMock);
@@ -32,6 +36,28 @@ describe('points card service', () => {
             pointsCardService.add('uuid', pointsCardDto);
 
             expect(repoMock.save).toHaveBeenCalledWith({id: 'uuid', name: 'GianniThePointsMaximiser'})
+        });
+    });
+
+    describe('get', () => {
+        it('should get the points card from the repo', () => {
+            const pointsCardService = new PointsCardService(repoMock);
+            repoMock.get = jest.fn().mockReturnValue({id: 'uuid', name: 'GianniThePointsMaximiser'})
+
+            const pointsCard = pointsCardService.get('uuid');
+
+            expect(repoMock.get).toHaveBeenCalledWith('uuid')
+            expect(pointsCard).toEqual({id: 'uuid', name: 'GianniThePointsMaximiser'})
+        });
+
+        it('should return null when points card is not in repo', () => {
+            const pointsCardService = new PointsCardService(repoMock);
+            repoMock.get = jest.fn().mockReturnValue(null)
+
+            const result = pointsCardService.get('notExistingUuid');
+
+            expect(repoMock.get).toHaveBeenCalledWith('notExistingUuid')
+            expect(result).toEqual(null)
         });
     });
 });

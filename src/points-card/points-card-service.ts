@@ -21,7 +21,7 @@ export class PointsCardService {
         this.repo.save(PointsCardEntity.create(id, pointsCardDto))
     }
 
-    get(id: string): PointsCardEntity {
-        throw new Error('Method not implemented.')
+    get(id: string): PointsCardEntity | null {
+        return this.repo.get(id)
     }
 }
