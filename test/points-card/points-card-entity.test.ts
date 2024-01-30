@@ -33,4 +33,36 @@ describe('points card entity', () => {
             expect(pointsCardEntity.getPoints()).toEqual(2);
         });
     });
+
+    describe('when subtracting points', () => {
+        it('should return an error when points balance is 0', () => {
+            expect(()=>pointsCardEntity.subtractPoints()).toThrow('Points insufficient')
+        });
+
+        it('should remove 2 point when role is New comer', () => {
+            pointsCardEntity.addPoints()
+            pointsCardEntity.addPoints();
+            expect(pointsCardEntity.getPoints()).toEqual(2);
+
+            pointsCardEntity.subtractPoints();
+
+            expect(pointsCardEntity.getRole()).toEqual('New comer');
+            expect(pointsCardEntity.getPoints()).toEqual(0);
+        });
+
+        it('should remove points multiple times', () => {
+            pointsCardEntity.addPoints();
+            pointsCardEntity.addPoints();
+            pointsCardEntity.addPoints()
+            pointsCardEntity.addPoints();
+            expect(pointsCardEntity.getPoints()).toEqual(4);
+
+            pointsCardEntity.subtractPoints();
+            expect(pointsCardEntity.getPoints()).toEqual(2);
+
+            pointsCardEntity.subtractPoints();
+            expect(pointsCardEntity.getPoints()).toEqual(0);
+        });
+    });
+
 });
