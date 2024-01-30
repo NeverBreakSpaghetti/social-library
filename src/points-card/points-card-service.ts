@@ -19,4 +19,11 @@ export class PointsCardService {
     get(id: string): PointsCardEntity | null {
         return this.repo.get(id)
     }
+
+    addPoints(id: string): void {
+        const pointsCard = this.get(id)
+        if (pointsCard !== null) {
+            pointsCard.addPoints()
+        }
+    }
 }

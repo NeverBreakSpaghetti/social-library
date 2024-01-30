@@ -7,4 +7,8 @@ export class PointsCardEntity {
     static create = (id: string, pointsCardDto: PointsCardDto) => {
         return new PointsCardEntity(id, pointsCardDto.name);
     }
+
+    public addPoints() {
+        //TODO: implement method
+    }
 }

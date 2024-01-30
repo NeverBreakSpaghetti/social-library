@@ -1,5 +1,8 @@
 import {PointsCardService} from "../../src/points-card/points-card-service";
 import {PointsCardRepo} from "../../src/points-card/points-card-repo";
+import {PointsCardEntity} from "../../src/points-card/points-card-entity";
+
+jest.mock('../../src/points-card/points-card-entity')
 
 describe('points card service', () => {
     let repoMock: PointsCardRepo
@@ -17,7 +20,7 @@ describe('points card service', () => {
     })
 
     afterEach(() => {
-      jest.resetAllMocks();
+        jest.resetAllMocks();
     })
 
     describe('generateId', () => {
@@ -33,6 +36,7 @@ describe('points card service', () => {
     describe('add', () => {
         it('should add the points card to the repo', () => {
             const pointsCardDto = {name: 'GianniThePointsMaximiser'}
+            jest.spyOn(PointsCardEntity, 'create').mockReturnValue({id: 'uuid', name: 'GianniThePointsMaximiser'} as unknown as PointsCardEntity)
 
             pointsCardService.add('uuid', pointsCardDto);
 
@@ -57,6 +61,27 @@ describe('points card service', () => {
 
             expect(repoMock.get).toHaveBeenCalledWith('notExistingUuid')
             expect(result).toEqual(null)
+        });
+    });
+
+    describe('addPoints', () => {
+        it('should add points when points card exists', () => {
+            const pointsCardEntity = new PointsCardEntity('uuid', 'GianniThePointsMaximiser')
+            repoMock.get = jest.fn().mockReturnValue(pointsCardEntity)
+
+            pointsCardService.addPoints('uuid');
+
+            expect(repoMock.get).toHaveBeenCalledWith('uuid')
+            expect(PointsCardEntity.prototype.addPoints).toHaveBeenCalled()
+        });
+
+        it('should not add points when points card not exists', () => {
+            repoMock.get = jest.fn().mockReturnValue(null)
+
+            pointsCardService.addPoints('uuid');
+
+            expect(repoMock.get).toHaveBeenCalledWith('uuid')
+            expect(PointsCardEntity.prototype.addPoints).not.toHaveBeenCalled()
         });
     });
 });
