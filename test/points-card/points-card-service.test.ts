@@ -2,6 +2,7 @@ import {PointsCardRepo, PointsCardService} from "../../src/points-card/points-ca
 
 describe('points card service', () => {
     let repoMock: PointsCardRepo
+    let pointsCardService: PointsCardService
 
     beforeAll(() => {
         repoMock = {
@@ -10,27 +11,26 @@ describe('points card service', () => {
         }
     })
 
+    beforeEach(() => {
+        pointsCardService = new PointsCardService(repoMock);
+    })
+
     afterEach(() => {
       jest.resetAllMocks();
     })
 
     describe('generateId', () => {
         it('should generate a new uuid', () => {
-            const pointsCardService = new PointsCardService(repoMock);
-
             expect(pointsCardService.generateId()).toEqual(expect.any(String));
         });
 
         it('should generate different uuids', () => {
-            const pointsCardService = new PointsCardService(repoMock);
-
             expect(pointsCardService.generateId()).not.toEqual(pointsCardService.generateId());
         });
     });
 
     describe('add', () => {
         it('should add the points card to the repo', () => {
-            const pointsCardService = new PointsCardService(repoMock);
             const pointsCardDto = {name: 'GianniThePointsMaximiser'}
 
             pointsCardService.add('uuid', pointsCardDto);
@@ -41,7 +41,6 @@ describe('points card service', () => {
 
     describe('get', () => {
         it('should get the points card from the repo', () => {
-            const pointsCardService = new PointsCardService(repoMock);
             repoMock.get = jest.fn().mockReturnValue({id: 'uuid', name: 'GianniThePointsMaximiser'})
 
             const pointsCard = pointsCardService.get('uuid');
@@ -51,7 +50,6 @@ describe('points card service', () => {
         });
 
         it('should return null when points card is not in repo', () => {
-            const pointsCardService = new PointsCardService(repoMock);
             repoMock.get = jest.fn().mockReturnValue(null)
 
             const result = pointsCardService.get('notExistingUuid');
