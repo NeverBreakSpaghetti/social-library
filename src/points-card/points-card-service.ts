@@ -1,4 +1,4 @@
-import {PointsCardEntity} from "./points-card-controller";
+import {PointsCardEntity} from "./points-card-entity";
 
 export class PointsCardService {
     generateId() {

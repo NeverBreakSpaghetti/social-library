@@ -3,11 +3,6 @@ import {PointsCardService} from "./points-card-service";
 import {isValid, mapToPointsCardDto} from "./points-card-dto";
 import {mapPointsCardToResponsePointsCardDto, ResponsePointsCardDto} from "./response-points-card-dto";
 
-export class PointsCardEntity {
-    constructor(private readonly id: string, private name: string) {
-    }
-}
-
 export const emitCard = (req: Request, res: Response) => {
     if (!isValid(req.body)){
         res.status(400).json({message: "user not valid"})
