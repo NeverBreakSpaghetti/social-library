@@ -14,17 +14,17 @@ describe('Points Card controller tests', () => {
         response = httpMocks.createResponse()
     })
 
+    afterEach(() => {
+        jest.clearAllMocks()
+        PointsCardService.prototype = realCardServicePrototype
+    });
+
     describe('POST /cards', () => {
 
         beforeEach(() => {
             request.method = 'POST'
             request.url = '/cards'
         })
-
-        afterEach(() => {
-            jest.clearAllMocks()
-            PointsCardService.prototype = realCardServicePrototype
-        });
 
         it('should return a response with status 201 and the location header when new card is add to catalogue', async () => {
             PointsCardService.prototype.generateId = jest.fn().mockReturnValue('1234')
@@ -75,11 +75,6 @@ describe('Points Card controller tests', () => {
             request.method = 'POST'
             request.url = '/cards/1234/add-points'
         })
-
-        afterEach(() => {
-            jest.clearAllMocks()
-            PointsCardService.prototype = realCardServicePrototype
-        });
 
         it('should return a response with status 200 when id is valid', () => {
             PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniBarbaCorta'})
