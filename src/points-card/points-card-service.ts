@@ -36,4 +36,8 @@ export class PointsCardService {
         pointsCard.subtractPoints() //should throw error when points insufficient
         this.repo.save(pointsCard)
     }
+
+    getPoints(id: string): number {
+        throw new Error("Not implemented")
+    }
 }

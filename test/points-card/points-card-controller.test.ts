@@ -96,5 +96,16 @@ describe('Points Card controller tests', () => {
             expect(response.statusCode).toBe(404)
             expect(response._getJSONData()).toHaveProperty('message', 'points card not found')
         });
+
+        it('should return a response with the card points balance', () => {
+            PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniBarbaCorta'})
+            request.params = {id: '1234'}
+            PointsCardService.prototype.getPoints = jest.fn().mockReturnValue(2)
+
+            PointsCard.addPoints(request, response)
+
+            expect(PointsCardService.prototype.getPoints).toHaveBeenCalledWith('1234')
+            expect(response._getJSONData()).toHaveProperty('totalPoints', 2)
+        });
     });
 });
