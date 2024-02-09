@@ -30,6 +30,10 @@ export const emitCard = (req: Request, res: Response) => {
 }
 
 export const addPoints = (req: Request, res: Response) => {
+    const pointsCardId = req.params.id
     const cardService = new PointsCardService(pointsCardRepo)
-    cardService.addPoints(req.params.id)
+    if (!cardService.get(pointsCardId))
+        return res.status(404).json({message: 'points card not found'}).send()
+
+    cardService.addPoints(pointsCardId)
 }

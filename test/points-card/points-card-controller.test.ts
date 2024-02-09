@@ -85,5 +85,16 @@ describe('Points Card controller tests', () => {
             expect(PointsCardService.prototype.addPoints).toHaveBeenCalled()
             expect(response.statusCode).toBe(200)
         });
+
+        it('should return a response with status 404 when points card id not exists', () => {
+            PointsCardService.prototype.get = jest.fn().mockReturnValue(null)
+            request.params = {id: '1234'}
+
+            PointsCard.addPoints(request, response)
+
+            expect(PointsCardService.prototype.addPoints).not.toHaveBeenCalled()
+            expect(response.statusCode).toBe(404)
+            expect(response._getJSONData()).toHaveProperty('message', 'points card not found')
+        });
     });
 });
