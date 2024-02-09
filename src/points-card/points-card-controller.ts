@@ -28,3 +28,8 @@ export const emitCard = (req: Request, res: Response) => {
     res.setHeader('location', `/cards/${id}`)
     res.status(201).json(responseBody)
 }
+
+export const addPoints = (req: Request, res: Response) => {
+    const cardService = new PointsCardService(pointsCardRepo)
+    cardService.addPoints(req.params.id)
+}

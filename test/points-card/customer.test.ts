@@ -15,4 +15,19 @@ describe('Points Card customer tests', () => {
             });
         });
     });
+
+    describe.skip('Given an exising points card', () => {
+        describe('when add points', () => {
+            it('should have success and return the new total points', async () => {
+                const user = { name: "Gianni braisserie visitor" }
+                const existingCard = await request(appUrl).post("/cards").send(user);
+                const cardId = existingCard.body.id;
+
+                const response = await request(appUrl).post(`/cards/${cardId}/add-points`).send();
+
+                expect(response.statusCode).toBe(200);
+                expect(response.body).toHaveProperty('totalPoints', 1);
+            });
+        });
+    });
 });

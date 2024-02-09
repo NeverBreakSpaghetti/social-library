@@ -69,4 +69,26 @@ describe('Points Card controller tests', () => {
             expect(response._getJSONData()).toHaveProperty('message', 'points card not added')
         });
     });
+
+    describe('POST /cards/:id/add-points', () => {
+        beforeEach(() => {
+            request.method = 'POST'
+            request.url = '/cards/1234/add-points'
+        })
+
+        afterEach(() => {
+            jest.clearAllMocks()
+            PointsCardService.prototype = realCardServicePrototype
+        });
+
+        it('should return a response with status 200 when id is valid', () => {
+            PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniBarbaCorta'})
+            request.params = {id: '1234'}
+
+            PointsCard.addPoints(request, response)
+
+            expect(PointsCardService.prototype.addPoints).toHaveBeenCalled()
+            expect(response.statusCode).toBe(200)
+        });
+    });
 });
