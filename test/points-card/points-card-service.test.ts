@@ -135,4 +135,18 @@ describe('points card service', () => {
             expect(repoMock.get).toHaveBeenCalledWith('uuid')
         });
     });
+
+    describe('getPoints', () => {
+        it('should return the points card balance when exists', () => {
+            repoMock.get = jest.fn().mockReturnValue({id: 'uuid', name: 'GianniThePointsMaximiser', getPoints: jest.fn().mockReturnValue(100)})
+
+            expect(pointsCardService.getPoints('uuid')).toEqual(100)
+        });
+
+        it('should return zero points as balance when card not exists', () => {
+            repoMock.get = jest.fn().mockReturnValue(null)
+
+            expect(pointsCardService.getPoints('uuid')).toEqual(0)
+        });
+    });
 });

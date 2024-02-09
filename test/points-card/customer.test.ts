@@ -16,7 +16,7 @@ describe('Points Card customer tests', () => {
         });
     });
 
-    describe.skip('Given an exising points card', () => {
+    describe('Given an exising points card', () => {
         describe('when add points', () => {
             it('should have success and return the new total points', async () => {
                 const user = { name: "Gianni braisserie visitor" }

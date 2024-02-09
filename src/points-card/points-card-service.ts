@@ -38,6 +38,10 @@ export class PointsCardService {
     }
 
     getPoints(id: string): number {
-        throw new Error("Not implemented")
+        const pointsCard = this.get(id)
+        if (pointsCard === null)
+            return 0
+
+        return pointsCard.getPoints()
     }
 }
