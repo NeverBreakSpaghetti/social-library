@@ -1,6 +1,6 @@
 import express from 'express'
-import {emitCard} from "./points-card/points-card-controller";
 import {bookRouter} from "./book.router";
+import {pointsCardRouter} from "./points-card.router";
 
 const app = express()
 const port = 3001
@@ -13,6 +13,6 @@ app.listen(port, () => {
 
 app.use('/books', bookRouter)
 
-app.use('/cards', emitCard)
+app.use('/cards', pointsCardRouter)
 
 export default app
