@@ -43,3 +43,14 @@ export const addPoints = (req: Request, res: Response) => {
 
     return res.status(200).json({totalPoints: totalCardPoints}).send()
 }
+
+export const getCard = (req: Request, res: Response) => {
+    const pointsCardId = req.params.id
+    const cardService = new PointsCardService(pointsCardRepo)
+
+    const pointsCardEntity = cardService.get(pointsCardId)
+    if (!pointsCardEntity)
+        return res.status(404).json({message: 'points card not found'}).send()
+
+    return res.status(200).json(mapPointsCardToResponsePointsCardDto(pointsCardEntity)).send()
+}

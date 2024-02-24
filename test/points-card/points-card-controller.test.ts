@@ -49,13 +49,14 @@ describe('Points Card controller tests', () => {
         });
 
         it('should return the points card data when created', () => {
-            PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniExBarbaLunga'})
+            PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GianniExBarbaLunga', points: 0})
             request.body = {name: 'GianniExBarbaLunga'}
 
             PointsCard.emitCard(request, response)
 
             expect(response._getJSONData()).toHaveProperty('id', '1234')
             expect(response._getJSONData()).toHaveProperty('name', 'GianniExBarbaLunga')
+            expect(response._getJSONData()).toHaveProperty('totalPoints', 0)
         });
 
         it('should return a response with status 500 when the added points card is not present', () => {
@@ -106,6 +107,35 @@ describe('Points Card controller tests', () => {
 
             expect(PointsCardService.prototype.getPoints).toHaveBeenCalledWith('1234')
             expect(response._getJSONData()).toHaveProperty('totalPoints', 2)
+        });
+    });
+
+    describe('GET /cards/:id', () => {
+        beforeEach(() => {
+            request.method = 'GET'
+            request.url = '/cards/1234'
+        })
+
+        it('should return a response with status 404 when points card id not exists', () => {
+            PointsCardService.prototype.get = jest.fn().mockReturnValue(null)
+            request.params = {id: '1234'}
+
+            PointsCard.getCard(request, response)
+
+            expect(response.statusCode).toBe(404)
+        });
+
+        it('should return a response with status 200 and points card id, name and total card points when id is valid', () => {
+            PointsCardService.prototype.get = jest.fn().mockReturnValue({id: '1234', name: 'GinniNotStoryPoints', points: 42})
+            PointsCardService.prototype.getPoints = jest.fn().mockReturnValue(42)
+            request.params = {id: '1234'}
+
+            PointsCard.getCard(request, response)
+
+            expect(response.statusCode).toBe(200)
+            expect(response._getJSONData()).toHaveProperty('id', '1234')
+            expect(response._getJSONData()).toHaveProperty('name', 'GinniNotStoryPoints')
+            expect(response._getJSONData()).toHaveProperty('totalPoints', 42)
         });
     });
 });
