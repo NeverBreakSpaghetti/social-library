@@ -4,15 +4,13 @@ import {isValid, mapToPointsCardDto} from "./points-card-dto";
 import {mapPointsCardToResponsePointsCardDto, ResponsePointsCardDto} from "./response-points-card-dto";
 import {InMemoryPointsCardRepo} from "./inmemory-points-card-repo";
 
-const pointsCardRepo = new InMemoryPointsCardRepo() //TODO: add a test to document that is always used the same repo every api call
-
 export const emitCard = (req: Request, res: Response) => {
     if (!isValid(req.body)){
         res.status(400).json({message: "user not valid"})
         return
     }
 
-    const cardService = new PointsCardService(pointsCardRepo)
+    const cardService = new PointsCardService()
 
     const pointsCardDto = mapToPointsCardDto(req.body)
     const id = cardService.generateId()
@@ -31,7 +29,7 @@ export const emitCard = (req: Request, res: Response) => {
 
 export const addPoints = (req: Request, res: Response) => {
     const pointsCardId = req.params.id
-    const cardService = new PointsCardService(pointsCardRepo)
+    const cardService = new PointsCardService()
 
     const pointsCardEntity = cardService.get(pointsCardId)
     if (!pointsCardEntity)
@@ -46,7 +44,7 @@ export const addPoints = (req: Request, res: Response) => {
 
 export const getCard = (req: Request, res: Response) => {
     const pointsCardId = req.params.id
-    const cardService = new PointsCardService(pointsCardRepo)
+    const cardService = new PointsCardService()
 
     const pointsCardEntity = cardService.get(pointsCardId)
     if (!pointsCardEntity)

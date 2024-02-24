@@ -26,3 +26,7 @@ export class InMemoryPointsCardRepo extends PointsCardRepo {
         return this.pointsCards.some(existingPointsCard => existingPointsCard['id'] === pointsCard['id'])
     }
 }
+
+const inMemoryPointsCardRepoSingletonInstance = new InMemoryPointsCardRepo();
+
+export default inMemoryPointsCardRepoSingletonInstance;

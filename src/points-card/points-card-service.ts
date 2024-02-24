@@ -2,10 +2,15 @@ import {PointsCardEntity} from "./points-card-entity";
 import {v4 as uuid} from 'uuid';
 import {PointsCardDto} from "./points-card-dto";
 import {PointsCardRepo} from "./points-card-repo";
+import inMemoryPointsCardRepoSingletonInstance from "./inmemory-points-card-repo";
 
 export class PointsCardService {
-    constructor(private readonly repo: PointsCardRepo) {
-
+    private readonly repo: PointsCardRepo;
+    constructor(repo?: PointsCardRepo) {
+        if (repo)
+            this.repo = repo
+        else
+            this.repo = inMemoryPointsCardRepoSingletonInstance //TODO: add a test to document that is always used the same repo every new singleton instance method call (or api call)
     }
 
     generateId(): string {
