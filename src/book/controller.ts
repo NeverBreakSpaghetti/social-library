@@ -3,6 +3,7 @@ import {Request, Response} from "express";
 import {InMemoryRepo} from "./inmemory-repo";
 import {BookDto, isValid} from "./book-dto";
 import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto, ResponseBookDto} from "./response-dto";
+import {PointsCardService} from "../points-card/points-card-service";
 
 const repo = new InMemoryRepo();
 export const getLibrary = () => {
@@ -28,6 +29,13 @@ export const insertBook = (library: LibraryService = getLibrary()) => {
             res.status(500).send()
             return
         }
+
+        const pointsCardId =req.header("points-card-id") //FIXME: find a not coupled way to communicate with points-card
+        if(pointsCardId){
+            const pointsCardService = new PointsCardService();
+            pointsCardService.addPoints(pointsCardId)
+        }
+
         const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
         const location = `/books/${id}`
         res.status(201)

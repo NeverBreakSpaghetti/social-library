@@ -1,7 +1,7 @@
 import request from "supertest";
 
 const appUrl = 'http://localhost:3001'
-describe.skip('Given an new emitted card', () => {
+describe('Given an new emitted card', () => {
     let emittedCardId: string;
 
     beforeEach(async () => {
