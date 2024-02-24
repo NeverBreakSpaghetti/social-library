@@ -20,10 +20,12 @@ describe.skip('Given an new emitted card', () => {
             depositResponse = response.body
         })
 
-        it('then should have a success add points to the points card', async () => {
-            expect(depositResponse).toHaveProperty('id')
-            expect(depositResponse).toHaveProperty('title', 'GianniBarbaLunga')
-            expect(depositResponse).toHaveProperty('points', 1)
+        it('then should have a get points to the points card', async () => {
+            const getCardResponse = await request(appUrl).get(`/cards/${emittedCardId}`).send()
+
+            expect(getCardResponse.body).toHaveProperty('id')
+            expect(getCardResponse.body).toHaveProperty('name', 'GianniReader')
+            expect(getCardResponse.body).toHaveProperty('totalPoints', 1)
         })
     })
 })
