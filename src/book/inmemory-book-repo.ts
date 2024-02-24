@@ -19,3 +19,6 @@ export class InMemoryBookRepo implements BookRepo{
     }
 
 }
+
+const inMemoryBookRepoSingletonInstance = new InMemoryBookRepo();
+export default inMemoryBookRepoSingletonInstance;
