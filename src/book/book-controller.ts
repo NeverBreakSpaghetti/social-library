@@ -11,7 +11,7 @@ export const getBookService = () => {
 export const mapRequestBodyToBookDto = (object: any): BookDto => {
     return {title: object.title, author: object.author, pages: object.pages}
 };
-export const insertBook = (library: BookService = getBookService()) => {
+export const depositBook = (library: BookService = getBookService()) => {
     return (req: Request, res: Response) => {
         if (!isValid(req.body)) {
             res.status(400).json({message: "Book not valid"});
