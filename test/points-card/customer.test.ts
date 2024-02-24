@@ -29,5 +29,20 @@ describe('Points Card customer tests', () => {
                 expect(response.body).toHaveProperty('totalPoints', 1);
             });
         });
+
+        describe('when get the card', () => {
+            it('should have sucess and gat the card data', async () => {
+                const user = {name: "Gianni braisserie sponsor"}
+                const existingCard = await request(appUrl).post("/cards").send(user);
+                const cardId = existingCard.body.id;
+
+                const response = await request(appUrl).get(`/cards/${cardId}`).send();
+
+                expect(response.statusCode).toBe(200);
+                expect(response.body).toHaveProperty('id',expect.any(String))
+                expect(response.body).toHaveProperty('name','Gianni braisserie sponsor')
+                expect(response.body).toHaveProperty('totalPoints', 0)
+            });
+        });
     });
 });
