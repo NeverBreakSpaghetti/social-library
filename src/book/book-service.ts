@@ -1,10 +1,10 @@
-import {Repo} from "./repo";
+import {BookRepo} from "./book-repo";
 import {v4 as uuid} from 'uuid';
 import {BookDto} from "./book-dto";
 import {BookEntity} from "./book-entity";
 
-export default class LibraryService {
-    constructor(private readonly libraryRepo: Repo) {}
+export default class BookService {
+    constructor(private readonly libraryRepo: BookRepo) {}
 
     public add(id: string, book: BookDto): void {
         const bookEntity: BookEntity = BookEntity.create(id, book)

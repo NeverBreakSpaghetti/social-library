@@ -1,7 +1,7 @@
-import {Repo} from "./repo";
+import {BookRepo} from "./book-repo";
 import {BookEntity} from "./book-entity";
 
-export class InMemoryRepo implements Repo{
+export class InMemoryBookRepo implements BookRepo{
     private bookEntities: BookEntity[] = [];
     save(book: BookEntity): void {
         this.bookEntities.push(book)
