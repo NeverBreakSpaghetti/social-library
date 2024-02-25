@@ -5,7 +5,7 @@ const appUrl = 'http://localhost:3001';
 describe('Customer tests', () => {
     describe('Given a new book not in catalogue', () => {
         const newBook = { title: "GianniBarbaLunga" }
-        describe('when execute an insert', () => {
+        describe('when execute a deposit', () => {
             it('then should have a success and return the object inserted with id', async () => {
                 const response = await request(appUrl).post("/books").send(newBook);
                 expect(response.statusCode).toBe(201);

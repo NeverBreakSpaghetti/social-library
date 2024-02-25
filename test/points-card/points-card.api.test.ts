@@ -2,7 +2,7 @@ import request from "supertest";
 
 const appUrl = 'http://localhost:3001';
 
-describe('Points Card customer tests', () => {
+describe('Points Card api tests', () => {
     describe('Given a new user', () => {
         const newUser = { name: "GianniBarbaMenoLunga" }
         describe('when request a new points card', () => {
