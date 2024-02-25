@@ -29,4 +29,8 @@ export default class BookService {
     generateId(): string {
         return uuid()
     }
+
+    remove(bookId: string): void {
+        this.bookRepo.remove(bookId)
+    }
 }

@@ -18,6 +18,10 @@ export class InMemoryBookRepo implements BookRepo{
         return Array.from(this.bookEntities)
     }
 
+    remove(bookId: string): void {
+        throw new Error("Method not implemented.");
+    }
+
 }
 
 const inMemoryBookRepoSingletonInstance = new InMemoryBookRepo();

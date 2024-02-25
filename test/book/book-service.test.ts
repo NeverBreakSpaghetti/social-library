@@ -9,7 +9,8 @@ describe('Library', () => {
         repoMock = {
             getAllBooks: jest.fn(),
             get: jest.fn(),
-            save: jest.fn().mockReturnValue(1)
+            save: jest.fn().mockReturnValue(1),
+            remove: jest.fn()
         }
     })
 
@@ -104,6 +105,16 @@ describe('Library', () => {
             const library = new BookService(repoMock);
 
             expect(library.generateId()).not.toEqual(library.generateId());
+        });
+    });
+
+    describe('remove', () => {
+        it('should remove a book', () => {
+            const library = new BookService(repoMock);
+
+            library.remove('uuid');
+
+            expect(repoMock.remove).toHaveBeenCalled()
         });
     });
 });
