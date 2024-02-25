@@ -84,3 +84,14 @@ describe('mapRequestBodyToBook', () => {
         expect(controller.mapRequestBodyToBookDto(body)).toEqual({title: 'Gianni\'s evaluation of Klingon war tactics', author: 'Gianni', pages: 6000})
     });
 });
+
+describe('POST /books/:id/withdraw', () => {
+    it('should return 400 when points card id is not provided', async () => { //FIXME: with this type of controller is not possible to test other behavior this without coupling with points-card. Moved in customer test
+        const bookId = 'notExistingId'
+
+        const response = await request(app).post(`/books/${bookId}/withdraw`).send()
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty('message', 'Missing points card')
+    });
+});
