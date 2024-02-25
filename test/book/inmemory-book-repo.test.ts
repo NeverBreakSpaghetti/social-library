@@ -56,4 +56,23 @@ describe('InMemoryRepo', () => {
         });
         it('should not modify internal bookEntities when edit array resulting from getAllBooks', () => {}) //TODO
     });
+
+    describe('remove', () => {
+        it('should remove an existing book', () => {
+            const repo = new InMemoryBookRepo()
+            const book: BookDto = {title: 'Le memorie di uno Scrum Master'}
+            const id = "uuid"
+
+            repo.save(BookEntity.create(id, book))
+            repo.remove(id)
+
+            expect(repo.get(id)).toEqual(null)
+        });
+
+        it('should not throw when book not exists', () => {
+            const repo = new InMemoryBookRepo()
+
+            expect(() => repo.remove("uuid")).not.toThrow()
+        });
+    });
 });

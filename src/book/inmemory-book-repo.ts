@@ -19,7 +19,11 @@ export class InMemoryBookRepo implements BookRepo{
     }
 
     remove(bookId: string): void {
-        throw new Error("Method not implemented.");
+        const bookEntity = this.get(bookId)
+        if(!bookEntity)
+            return
+        const bookIndex = this.bookEntities.indexOf(bookEntity)
+        this.bookEntities.splice(bookIndex, 1)
     }
 
 }
