@@ -67,31 +67,21 @@ export const getAllBooks = (library: BookService = getBookService()) => {
 
 export const withdrawBook = (library: BookService = getBookService()) => {
     return (req: Request, res: Response) => {
-        //////////// FIXME: find a not coupled way to communicate with points-card
         const pointsCardId = req.header("points-card-id")
         if(!pointsCardId){
             res.status(400).json({message: "Missing points card"})
             return
         }
-        // const pointsCardService = new PointsCardService();
-        // try {
-        //     pointsCardService.subtractPoints(pointsCardId) // TODO: discuss this. Is better communicate with points card service here or in service? (maybe in service because when will exists a not coupled way to communicate the business logic should be in service)
-        // } catch (e: any) {
-        //     res.status(403).json({message: (e as Error).message});
-        //     return
-        // }
-        //////////////////////////////////////////////////////////////////////////
 
         const bookId = req.params.id;
         const book = library.get(bookId);
-        if (!book){ // TODO: discuss this. checking if book exists here i can avoid to check it in service or repository assuming that the command is fired only on existing book
+        if (!book){
             res.status(404).send({message: "Book not found"})
             return
         }
 
-        // library.remove(bookId)
         try {
-            library.removeBookWithEvent(pointsCardId, bookId)
+            library.removeBookWithSubject(pointsCardId, bookId)
         } catch (e: any) {
             res.status(403).send({message: "Points insufficient"})
             return

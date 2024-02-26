@@ -3,7 +3,8 @@ import {v4 as uuid} from 'uuid';
 import {BookDto} from "./book-dto";
 import {BookEntity} from "./book-entity";
 import inMemoryBookRepoSingletonInstance from "./inmemory-book-repo";
-import {Observer, PointsCardEventObservable, SubtractPointsEvent} from "./observer";
+import { PointsCardSubject, SubtractPointsSubject} from "../points-card/observable";
+import {Observer} from "../common/observer";
 
 export default class BookService implements Observer{
     private readonly bookRepo: BookRepo
@@ -35,14 +36,14 @@ export default class BookService implements Observer{
         this.bookRepo.remove(bookId)
     }
 
-    removeBookWithEvent(pointsCardId: string, bookId: string) { // FIXME: leak of information: PointsCardID (ma come farei altrimenti???)
-        const subtractEvent: SubtractPointsEvent = new SubtractPointsEvent(pointsCardId, bookId)
-        subtractEvent.addObserver(this)
-        subtractEvent.fireEvent() //FIXME: It should be better is it was async. It's strange create an observee and call command that can change the state
+    removeBookWithSubject(pointsCardId: string, bookId: string) {
+        const subtractSubject: SubtractPointsSubject = new SubtractPointsSubject(pointsCardId, bookId)
+        subtractSubject.addObserver(this)
+        subtractSubject.fireEvent() //FIXME: It should be better is it was async. It's strange create an observee and call command that can change the state
     }
 
-    update(observed: PointsCardEventObservable): void {
-        if (! (observed instanceof SubtractPointsEvent))
+    update(observed: PointsCardSubject): void {
+        if (! (observed instanceof SubtractPointsSubject))
             throw new Error("Invalid event type")
 
         if (observed.getState() === false)

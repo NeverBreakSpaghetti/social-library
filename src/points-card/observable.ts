@@ -1,10 +1,7 @@
-import {PointsCardService} from "../points-card/points-card-service";
+import {PointsCardService} from "./points-card-service";
+import {Observer} from "../common/observer";
 
-export interface Observer {
-        update(observed: PointsCardEventObservable): void;
- }
-
- export abstract class PointsCardEventObservable {
+ export abstract class PointsCardSubject {
     private observers: Observer[] = [];
     public addObserver(observer: Observer) {
         this.observers.push(observer);
@@ -16,7 +13,7 @@ export interface Observer {
     public fireEvent() {}
  }
 
- export class SubtractPointsEvent extends PointsCardEventObservable {
+ export class SubtractPointsSubject extends PointsCardSubject {
     private readonly pointsCardId: string;
     private readonly bookId: string;
     private state: boolean | undefined;
