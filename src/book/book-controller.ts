@@ -75,7 +75,7 @@ export const withdrawBook = (library: BookService = getBookService()) => {
         }
         const pointsCardService = new PointsCardService();
         try {
-            pointsCardService.subtractPoints(pointsCardId) // TODO: discuss this. Is better communicate with points card service here or in service? (maybe in service because when will exists a not coupled way to communicate the business logic should be in service)
+            pointsCardService.subtractPoints(pointsCardId) // TODO: discuss this. Is better communicate with points card service here or in service? (maybe in service because when will exists a not coupled way to communicate the business logic should be in service) RISPOSTA: se hai un gatway è meglio mettelo li perchè se crei un altro controller rischi di perderti quella logica e questa fa parte della logica di business (quindi service)
         } catch (e: any) {
             res.status(403).json({message: (e as Error).message});
             return
@@ -84,7 +84,7 @@ export const withdrawBook = (library: BookService = getBookService()) => {
 
         const bookId = req.params.id;
         const book = library.get(bookId);
-        if (!book){ // TODO: discuss this. checking if book exists here i can avoid to check it in service or repository assuming that the command is fired only on existing book
+        if (!book){ // TODO: discuss this. checking if book exists here i can avoid to check it in service or repository assuming that the command is fired only on existing book RISPOSTA: metterlo qui perchè il fatto che restituisca un informazione di non trovato dipende dal canale (HTTP) e l'app non espode se passi un book non esistente
             res.status(404).send({message: "Book not found"})
             return
         }
