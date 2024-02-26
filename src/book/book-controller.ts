@@ -73,13 +73,13 @@ export const withdrawBook = (library: BookService = getBookService()) => {
             res.status(400).json({message: "Missing points card"})
             return
         }
-        const pointsCardService = new PointsCardService();
-        try {
-            pointsCardService.subtractPoints(pointsCardId) // TODO: discuss this. Is better communicate with points card service here or in service? (maybe in service because when will exists a not coupled way to communicate the business logic should be in service)
-        } catch (e: any) {
-            res.status(403).json({message: (e as Error).message});
-            return
-        }
+        // const pointsCardService = new PointsCardService();
+        // try {
+        //     pointsCardService.subtractPoints(pointsCardId) // TODO: discuss this. Is better communicate with points card service here or in service? (maybe in service because when will exists a not coupled way to communicate the business logic should be in service)
+        // } catch (e: any) {
+        //     res.status(403).json({message: (e as Error).message});
+        //     return
+        // }
         //////////////////////////////////////////////////////////////////////////
 
         const bookId = req.params.id;
@@ -89,7 +89,13 @@ export const withdrawBook = (library: BookService = getBookService()) => {
             return
         }
 
-        library.remove(bookId)
+        // library.remove(bookId)
+        try {
+            library.removeBookWithEvent(pointsCardId, bookId)
+        } catch (e: any) {
+            res.status(403).send({message: "Points insufficient"})
+            return
+        }
 
         res.status(200).send(mapBookToResponseBookDto(book))
     }
