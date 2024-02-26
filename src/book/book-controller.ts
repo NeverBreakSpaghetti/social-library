@@ -28,10 +28,10 @@ export const depositBook = (library: BookService = getBookService()) => {
             return
         }
 
-        const pointsCardId =req.header("points-card-id") //FIXME: find a not coupled way to communicate with points-card
+        const pointsCardId = req.header("points-card-id")
         if(pointsCardId){
-            const pointsCardService = new PointsCardService();
-            pointsCardService.addPoints(pointsCardId)
+            const pointsCardGateway = new PointsCardService()
+            pointsCardGateway.addPoints(pointsCardId)
         }
 
         const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
@@ -67,24 +67,23 @@ export const getAllBooks = (library: BookService = getBookService()) => {
 
 export const withdrawBook = (library: BookService = getBookService()) => {
     return (req: Request, res: Response) => {
-        //////////// FIXME: find a not coupled way to communicate with points-card
         const pointsCardId = req.header("points-card-id")
         if(!pointsCardId){
             res.status(400).json({message: "Missing points card"})
             return
         }
-        const pointsCardService = new PointsCardService();
+
         try {
-            pointsCardService.subtractPoints(pointsCardId) // TODO: discuss this. Is better communicate with points card service here or in service? (maybe in service because when will exists a not coupled way to communicate the business logic should be in service) RISPOSTA: se hai un gatway è meglio mettelo li perchè se crei un altro controller rischi di perderti quella logica e questa fa parte della logica di business (quindi service)
+            const pointsCardGateway = new PointsCardService()
+            pointsCardGateway.subtractPoints(pointsCardId)
         } catch (e: any) {
             res.status(403).json({message: (e as Error).message});
             return
         }
-        //////////////////////////////////////////////////////////////////////////
 
         const bookId = req.params.id;
         const book = library.get(bookId);
-        if (!book){ // TODO: discuss this. checking if book exists here i can avoid to check it in service or repository assuming that the command is fired only on existing book RISPOSTA: metterlo qui perchè il fatto che restituisca un informazione di non trovato dipende dal canale (HTTP) e l'app non espode se passi un book non esistente
+        if (!book){
             res.status(404).send({message: "Book not found"})
             return
         }

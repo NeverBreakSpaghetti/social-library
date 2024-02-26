@@ -36,7 +36,7 @@ export class PointsCardService {
     subtractPoints(id: string) {
         const pointsCard = this.get(id)
         if (pointsCard === null)
-            throw new Error("Points card not found") // TODO: discuss this. Should I do not throw this assuming that the command is call only if the points card exists or throw error or simply return? RISPOSTA: no, exceptional event should be exception. This is a command and we are validating the command with a guard
+            throw new Error("Points card not found")
 
         pointsCard.subtractPoints()
         this.repo.save(pointsCard)
