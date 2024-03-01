@@ -29,7 +29,7 @@ import {Observer} from "../common/observer";
         } catch (e) {
             this.setOperationCompleteStatus(false)
         }
-        if (!this.isOperationCompleteWithSuccess)
+        if (this.isOperationCompleteWithSuccess === undefined)
             this.setOperationCompleteStatus(true)
     }
 
