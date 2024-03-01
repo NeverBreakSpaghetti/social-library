@@ -16,7 +16,7 @@ import {Observer} from "../common/observer";
  export class SubtractPointsSubject extends PointsCardSubject {
     private readonly pointsCardId: string;
     private readonly bookId: string;
-    private state: boolean | undefined;
+    private isOperationCompleteWithSuccess: boolean | undefined;
     constructor(pointsCardId: string, bookId: string) {
         super();
         this.pointsCardId = pointsCardId
@@ -27,19 +27,19 @@ import {Observer} from "../common/observer";
         try {
             service.subtractPoints(this.pointsCardId)
         } catch (e) {
-            this.setState(false)
+            this.setOperationCompleteStatus(false)
         }
-        if (!this.state)
-            this.setState(true)
+        if (!this.isOperationCompleteWithSuccess)
+            this.setOperationCompleteStatus(true)
     }
 
-     private setState(state: boolean) {
-         this.state = state
+     private setOperationCompleteStatus(state: boolean) {
+         this.isOperationCompleteWithSuccess = state
          this.notifyObservers()
      }
 
-    public getState() {
-        return this.state
+    public getOperationCompletionWithSuccessStatus() {
+        return this.isOperationCompleteWithSuccess
     }
 
     public getBookId() {
