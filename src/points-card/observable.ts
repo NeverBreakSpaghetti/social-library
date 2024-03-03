@@ -1,19 +1,7 @@
 import {PointsCardService} from "./points-card-service";
-import {Observer} from "../common/observer";
+import {ActionObservable} from "../common/observer";
 
- export abstract class PointsCardSubject {
-    private observers: Observer[] = [];
-    public addObserver(observer: Observer) {
-        this.observers.push(observer);
-    }
-    public notifyObservers() {
-        this.observers.forEach(observer => observer.update(this));
-    }
-
-    public fireEvent() {}
- }
-
- export class SubtractPointsSubject extends PointsCardSubject {
+ export class SubtractPointsAction extends ActionObservable {
     private readonly pointsCardId: string;
     private readonly bookId: string;
     private isOperationCompleteWithSuccess: boolean | undefined;
@@ -22,23 +10,23 @@ import {Observer} from "../common/observer";
         this.pointsCardId = pointsCardId
         this.bookId = bookId
     }
-    override fireEvent() {
+    override execute() {
         const service = new PointsCardService()
         try {
             service.subtractPoints(this.pointsCardId)
         } catch (e) {
-            this.setOperationCompleteStatus(false)
+            this.setActionCompleteStatus(false)
         }
         if (this.isOperationCompleteWithSuccess === undefined)
-            this.setOperationCompleteStatus(true)
+            this.setActionCompleteStatus(true)
     }
 
-     private setOperationCompleteStatus(state: boolean) {
+     private setActionCompleteStatus(state: boolean) {
          this.isOperationCompleteWithSuccess = state
          this.notifyObservers()
      }
 
-    public getOperationCompletionWithSuccessStatus() {
+    public getActionCompletionWithSuccessStatus() {
         return this.isOperationCompleteWithSuccess
     }
 

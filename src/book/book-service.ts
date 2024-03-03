@@ -3,9 +3,9 @@ import {v4 as uuid} from 'uuid';
 import {BookDto} from "./book-dto";
 import {BookEntity} from "./book-entity";
 import inMemoryBookRepoSingletonInstance from "./inmemory-book-repo";
-import { SubtractPointsSubject} from "../points-card/observable";
+import {SubtractPointsAction} from "../points-card/observable";
 import {Observer} from "../common/observer";
-import {SubjectObserver} from "./observer";
+import {ActionObserver} from "./action-observer";
 
 export default class BookService {
     private readonly bookRepo: BookRepo
@@ -38,9 +38,9 @@ export default class BookService {
     }
 
     removeBookWithSubject(pointsCardId: string, bookId: string) {
-        const subtractSubject: SubtractPointsSubject = new SubtractPointsSubject(pointsCardId, bookId)
-        const subjectObserver: Observer = new SubjectObserver(this.bookRepo)
-        subtractSubject.addObserver(subjectObserver)
-        subtractSubject.fireEvent()
+        const subtractPointsAction: SubtractPointsAction = new SubtractPointsAction(pointsCardId, bookId)
+        const actionObserver: Observer = new ActionObserver(this.bookRepo)
+        subtractPointsAction.addObserver(actionObserver)
+        subtractPointsAction.execute()
     }
 }
