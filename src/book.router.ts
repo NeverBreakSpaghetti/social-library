@@ -3,9 +3,8 @@ import {getAllBooks, getBook, depositBook, withdrawBook} from "./book/book-contr
 
 export const bookRouter = Router()
 
-bookRouter.post('/', depositBook())
-bookRouter.post('/:id/withdraw', withdrawBook())
 bookRouter.post('/', depositBook)
+bookRouter.post('/:id/withdraw', withdrawBook)
 
 bookRouter.get('/:id', getBook())
 bookRouter.get('/', getAllBooks())
