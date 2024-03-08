@@ -5,6 +5,7 @@ export const bookRouter = Router()
 
 bookRouter.post('/', depositBook())
 bookRouter.post('/:id/withdraw', withdrawBook())
+bookRouter.post('/', depositBook)
 
 bookRouter.get('/:id', getBook())
 bookRouter.get('/', getAllBooks())

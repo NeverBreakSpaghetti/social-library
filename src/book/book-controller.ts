@@ -11,36 +11,34 @@ export const getBookService = () => {
 export const mapRequestBodyToBookDto = (object: any): BookDto => {
     return {title: object.title, author: object.author, pages: object.pages}
 };
-export const depositBook = (library: BookService = getBookService()) => {
-    return (req: Request, res: Response) => {
-        if (!isValid(req.body)) {
-            res.status(400).json({message: "Book not valid"});
-            return;
-        }
+export const depositBook = (req: Request, res: Response) => {
+    if (!isValid(req.body)) {
+        res.status(400).json({message: "Book not valid"});
+        return;
+    }
 
-        const id = library.generateId();
-        const book: BookDto = mapRequestBodyToBookDto(req.body)
-        library.add(id, book)
+    const library = getBookService();
+    const id = library.generateId();
+    const book: BookDto = mapRequestBodyToBookDto(req.body)
+    library.add(id, book)
 
-        const bookEntity = library.get(id)
-        if (!bookEntity) {
-            res.status(500).send()
-            return
-        }
+    const bookEntity = library.get(id)
+    if (!bookEntity) {
+        res.status(500).send()
+        return
+    }
 
-        const pointsCardId = req.header("points-card-id")
-        if(pointsCardId){
-            const pointsCardGateway = new PointsCardService()
-            pointsCardGateway.addPoints(pointsCardId)
-        }
-            const pointsCardGateway = new PointsCardGateway()
+    const pointsCardId = req.header("points-card-id")
+    if(pointsCardId){
+        const pointsCardGateway = new PointsCardGateway()
+        pointsCardGateway.addPoints(pointsCardId)
+    }
 
-        const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
-        const location = `/books/${id}`
-        res.status(201)
-            .setHeader('location',location)
-            .send(responseBody)
-    };
+    const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
+    const location = `/books/${id}`
+    res.status(201)
+        .setHeader('location',location)
+        .send(responseBody)
 }
 
 export const getBook = (library: BookService = getBookService()) => {
