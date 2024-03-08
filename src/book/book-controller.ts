@@ -2,7 +2,7 @@ import BookService from "./book-service";
 import {Request, Response} from "express";
 import {BookDto, isValid} from "./book-dto";
 import {mapBookArrayToResponseBookDtoArray, mapBookToResponseBookDto, ResponseBookDto} from "./response-book-dto";
-import {PointsCardService} from "../points-card/points-card-service";
+import {PointsCardGateway} from "./points-card-gateway";
 
 export const getBookService = () => {
     return new BookService();
@@ -33,6 +33,7 @@ export const depositBook = (library: BookService = getBookService()) => {
             const pointsCardGateway = new PointsCardService()
             pointsCardGateway.addPoints(pointsCardId)
         }
+            const pointsCardGateway = new PointsCardGateway()
 
         const responseBody: ResponseBookDto = mapBookToResponseBookDto(bookEntity)
         const location = `/books/${id}`
@@ -75,6 +76,7 @@ export const withdrawBook = (library: BookService = getBookService()) => {
 
         try {
             const pointsCardGateway = new PointsCardService()
+            const pointsCardGateway = new PointsCardGateway()
             pointsCardGateway.subtractPoints(pointsCardId)
         } catch (e: any) {
             res.status(403).json({message: (e as Error).message});
